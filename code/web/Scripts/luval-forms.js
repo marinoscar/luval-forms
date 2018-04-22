@@ -67,13 +67,15 @@
                 field["input"] = this.renderInput(fieldId, helpElement, field);
         }
         field["helpElement"] = helpElement;
-
+        field["colClass"] = "col-md-12";
         var template = _.template(
             `
-            <div data-row="<%= row %>" class="form-group">
-                <label for="<%= fieldId %>"><%= label %></label>
-                <%= input %>
-                <%= helpElement %>
+            <div class="form-row">
+                <div data-row="<%= row %>" class="form-group <% = colClass %>">
+                    <label for="<%= fieldId %>"><%= label %></label>
+                    <%= input %>
+                    <%= helpElement %>
+                </div>
             </div>
             `
         );
