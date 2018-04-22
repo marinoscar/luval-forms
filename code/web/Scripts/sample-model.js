@@ -38,6 +38,14 @@
             attributes: [{ "required": "" }],
             value: "2",
             items: [{ text: "EY", value: "1" }, { text: "Exxon", value: "2" }, { text: "Monsanto", value: "3" }]
+        },
+        {
+            row: 2,
+            id: "description",
+            name: "Description",
+            label: "Description",
+            type: "textarea",
+            rows: 4
         }
     ]
 }

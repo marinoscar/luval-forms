@@ -60,6 +60,9 @@
         switch (field.type) {
             case "hidden":
                 return this.renderHidden(fieldId, field);
+            case "textarea":
+                field["input"] = this.renderTextArea(fieldId, field);
+                break;
             case "select":
                 field["input"] = this.renderSelect(fieldId, field);
                 break;
@@ -71,7 +74,7 @@
         var template = _.template(
             `
             <div class="form-row">
-                <div data-row="<%= row %>" class="form-group <% = colClass %>">
+                <div data-row="<%= row %>" class="form-group <%= colClass %>">
                     <label for="<%= fieldId %>"><%= label %></label>
                     <%= input %>
                     <%= helpElement %>
@@ -94,6 +97,15 @@
             field["helpElementTag"] = 'aria-describedby="' + fieldId + '-help"';
         var result = template(field);
         return result;
+    }
+
+    renderTextArea(fieldId, field) {
+        forms.sanitizeModel(field, 'rows', '3');
+        var template = _.template(
+            `<textarea class="form-control" id="<%= id %>" rows="<%= rows %>"></textarea>`
+        );
+        field.id = fieldId;
+        return template(field);
     }
 
     renderHidden(fieldId, field) {
