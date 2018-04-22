@@ -1,7 +1,7 @@
 ﻿var simpleForm = {
     id: "client-form",
     method: "post",
-    action:"/",
+    action: "/",
     title: "Client",
     fields: [
         {
@@ -11,18 +11,26 @@
             label: "Code",
             placeholder: "Enter code",
             type: "text",
-            help: "The code identifies the client",
-            attributes: [{ "required": "" }],
+            attributes: [{ "required": "true" }],
         },
         {
             row: 2,
             id: "name",
             name: "Name",
             label: "Name",
-            placeholder: "Enter name",
             type: "text",
             help: "The name identifies the client",
             attributes: [{ "required": "" }],
         },
+        {
+            row: 2,
+            id: "company",
+            name: "Company",
+            label: "Company",
+            type: "select",
+            help: "The name identifies the company",
+            attributes: [{ "required": "" }],
+            items: [{ text: "EY", value: "1" }, { text: "Exxon", value: "2" }, { text: "Monsanto", value: "3" }]
+        }
     ]
 }

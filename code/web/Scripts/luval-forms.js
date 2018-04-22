@@ -1,6 +1,26 @@
 ﻿class forms {
     constructor(model) {
         this.model = model;
+        forms.sanitizeModel(this.model, 'action', '/');
+        forms.sanitizeModel(this.model, 'method', 'post');
+        forms.sanitizeModel(this.model, 'title');
+    }
+
+    static sanitizeModel(model, attribute, defaultValue) {
+        if (typeof (defaultValue) == 'undefined' || defaultValue == null)
+            defaultValue = "";
+
+        if (typeof (model[attribute]) == 'undefined' || model[attribute] == null)
+            model[attribute] = defaultValue;
+    }
+
+    sanitizeFields() {
+        for (var i = 0, len = this.model.fields.length; i < len; i++) {
+            forms.sanitizeModel(this.model.fields[i], 'help');
+            forms.sanitizeModel(this.model.fields[i], 'value');
+            forms.sanitizeModel(this.model.fields[i], 'placeholder');
+            forms.sanitizeModel(this.model.fields[i], 'attributes', []);
+        }
     }
 
     render(elementId) {
@@ -13,7 +33,7 @@
         var formBody = this.renderFields();
         var template = _.template(
             `<form id="<%= id %>" method:"<%= method %>" action="<%= action %>" >
-                <% formBody %>
+                <%= formBody %>
             </form >`
         );
         var result = template({ id: this.model.id, method: this.model.method, action: this.model.action, formBody: formBody });
@@ -21,6 +41,7 @@
     }
 
     renderFields() {
+        this.sanitizeFields();
         var fields = _.sortBy(this.model.fields, 'row');
         var result = "";
         for (var i = 0, len = fields.length; i < len; i++) {
@@ -49,6 +70,7 @@
             `
         );
         var result = template(field);
+        return result;
     }
 
     renderInput(fieldId, helpElementTag, field) {
@@ -57,7 +79,7 @@
 
         var template = _.template(
             `
-            <input id="<%= fieldId %>" name="<%= name %>" type="<%= type %>" value="<%= value %>" <% helpElementTag %> placeholder="<%= placeholder %>">
+            <input class="form-control" id="<%= fieldId %>" name="<%= name %>" type="<%= type %>" value="<%= value %>" <% helpElementTag %> placeholder="<%= placeholder %>">
             `
         );
         field["fieldId"] = fieldId;
