@@ -20,6 +20,7 @@
             forms.sanitizeModel(this.model.fields[i], 'value');
             forms.sanitizeModel(this.model.fields[i], 'placeholder');
             forms.sanitizeModel(this.model.fields[i], 'attributes', []);
+            forms.sanitizeModel(this.model.fields[i], 'row', 1);
         }
     }
 

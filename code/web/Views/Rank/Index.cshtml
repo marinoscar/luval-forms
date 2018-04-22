@@ -1,0 +1,24 @@
+﻿
+@{
+    ViewBag.Title = "Rank";
+    Layout = "~/Views/Shared/_Main.cshtml";
+}
+
+@section scripts{
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.9.0/underscore-min.js" integrity="sha256-tr4FvXVZp8nkW7TvW4OYA5KWOs7fc2m5B6LN+AOn1VI=" crossorigin="anonymous"></script>
+    <script src="~/Scripts/models.js"></script>
+    <script src="~/Scripts/luval-forms.js"></script>
+    <script type="text/javascript">
+        $(function () {
+            var builder = new forms(rankModel);
+            builder.render('rank-div');
+        });
+    </script>
+}
+
+
+
+
+<h2>Ranks</h2>
+<div id="rank-div"></div>
+

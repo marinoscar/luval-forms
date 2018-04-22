@@ -90,12 +90,14 @@
   <ItemGroup>
     <Content Include="Global.asax" />
     <Content Include="Scripts\luval-forms.js" />
+    <Content Include="Scripts\models.js" />
     <Content Include="Scripts\sample-model.js" />
     <Content Include="Web.config" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\RankController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -106,6 +108,7 @@
     <Content Include="packages.config" />
     <Content Include="Views\Shared\_Main.cshtml" />
     <Content Include="Views\Home\Index.cshtml" />
+    <Content Include="Views\Rank\Index.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
