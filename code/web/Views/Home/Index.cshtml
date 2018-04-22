@@ -10,8 +10,11 @@
     <script src="~/Scripts/luval-forms.js"></script>
     <script type="text/javascript">
         $(function () {
-            var builder = new forms(simpleForm);
-            builder.render('sample-form');
+            var formBuilder = new forms(simpleForm);
+            formBuilder.render('sample-form');
+            var listBuilder = new lists(simpleList, simpleData);
+            listBuilder.render('sample-list');
+
         });
     </script>
 }
@@ -19,4 +22,5 @@
 <h2>Hello World</h2>
 
 <div id="sample-form"></div>
+<div id="sample-list"></div>
 

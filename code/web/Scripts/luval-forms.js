@@ -177,5 +177,86 @@ class lists {
     constructor(model, list) {
         this.model = model;
         this.list = list;
+        forms.sanitizeModel(this.model, "keyColumnName", "Id");
+        forms.sanitizeModel(this.model, "commands", []);
+        forms.sanitizeModel(this.model, "columns", []);
+        forms.sanitizeModel(this.model, "id", "table-0001");
     }
+
+    render(elementId) {
+        var el = document.getElementById(elementId);
+        //var form = this.renderForm();
+        el.innerHTML = form;
+    }
+
+    renderTable() {
+        var header = this.renderTableHeader();
+        var body = this.renderTableBody();
+        var template = _.template(
+            `
+            <table class="table" data-table-luval="true" data-column-key="<%= keyColumnName %>">
+                <thead>
+                    <%= tableHeader %>
+                </thead>
+                <tbody>
+                    <%= tableBody %>
+                </tbody>
+            </table>
+            `
+        );
+        return template({ keyColumnName: this.model.keyColumnName, tableHeader: header, tableBody: body });
+    }
+
+    renderTableHeader() {
+        var result = '<tr>';
+        for (var i = 0; i < this.model.columns.length; i++) {
+            var col = this.model.columns[i];
+            var visible = this.getVisibilityStyle(col.visible);
+            result += '<th scope="col" ' + visible + ' >' + col.Caption + '</th>';
+        }
+        result += '</tr>';
+        return result;
+    }
+
+    renderTableBody() {
+        var body = '';
+        for (var i = 0; i < this.list.length; i++) {
+            body += this.renderTableRow(i);
+        }
+        return body;
+    }
+
+    renderTableRow(index) {
+        var row = this.list[index];
+        var cells = '';
+        var keyValue = row[this.model.keyColumnName];
+        var template = _.template(
+            `
+            <tr data-row-key="<%= keyValue %>">
+            <%= cells %>
+            </tr>
+            `
+        );
+        for (var i = 0; i < this.model.columns.length; i++) {
+            var col = this.model.columns[i];
+            var cellValue = row[col.Name];
+            if (typeof (cellValue) == 'undefined' || cellValue == null)
+                cellValue = "";
+            cells += this.renderTableCell(col.visible, cellValue);
+
+        }
+        return template({ keyValue: keyValue, cells: cells });
+    }
+
+    renderTableCell(isVisible, text) {
+        return '<td ' + this.getVisibilityStyle(isVisible) + ' >' + text + '</td>'; 
+    }
+
+    getVisibilityStyle(isVisible) {
+        var result = '';
+        if (isVisible == "false")
+            result = 'style="display:none;"';
+        return result;
+    }
+
 }

@@ -84,8 +84,8 @@ var simpleList = {
 }
 
 var simpleData = [
-    { Id: 1, Name: "Oscar Marin", Description: "None", Date: "1983-01-19" },
-    { Id: 2, Name: "Pamela Molina", Description: "None", Date: "1983-01-19" },
-    { Id: 3, Name: "Lucia Marin", Description: "None", Date: "1983-01-19" },
-    { Id: 4, Name: "Valeria Marin", Description: "None", Date: "1983-01-19" },
+    { Id: 1, Code: "MYM-001", Name: "Oscar Marin", Description: "None", Date: "1983-01-19" },
+    { Id: 2, Code: "MYM-002",  Name: "Pamela Molina", Description: "None", Date: "1983-01-19" },
+    { Id: 3, Code: "MYM-003",  Name: "Lucia Marin", Description: "None", Date: "1983-01-19" },
+    { Id: 4, Code: "MYM-004",  Name: "Valeria Marin", Description: "None", Date: "1983-01-19" },
 ]
