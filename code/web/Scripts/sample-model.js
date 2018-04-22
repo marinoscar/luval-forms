@@ -46,6 +46,13 @@
             label: "Description",
             type: "textarea",
             rows: 4
+        },
+        {
+            row: 2,
+            id: "datecontrol",
+            name: "Date",
+            label: "Date",
+            type: "Date",
         }
     ],
     commands: [
@@ -53,7 +60,32 @@
             id: "save",
             text: "Save",
             type: "submit",
-            classType: "primary"
+            classType: "primary",
+            formAction: "/action",
+            formMethod: "post"
         }
     ],
 }
+
+var simpleList = {
+    id: "client-list",
+    columns: [
+        { caption: "Id", name: "Id", visible: "false" },
+        { caption: "Code", name: "Code", visible: "true" },
+        { caption: "Name", name: "Name", visible: "true" },
+        { caption: "Date", name: "Date", visible: "true" },
+    ],
+    keyColumnName: "Id",
+    commands: [
+        { text: "Update", classType: "primary" },
+        { text: "Delete", classType: "secundary" },
+    ]
+
+}
+
+var simpleData = [
+    { Id: 1, Name: "Oscar Marin", Description: "None", Date: "1983-01-19" },
+    { Id: 2, Name: "Pamela Molina", Description: "None", Date: "1983-01-19" },
+    { Id: 3, Name: "Lucia Marin", Description: "None", Date: "1983-01-19" },
+    { Id: 4, Name: "Valeria Marin", Description: "None", Date: "1983-01-19" },
+]
