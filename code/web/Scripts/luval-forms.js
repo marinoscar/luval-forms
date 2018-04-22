@@ -185,8 +185,8 @@ class lists {
 
     render(elementId) {
         var el = document.getElementById(elementId);
-        //var form = this.renderForm();
-        el.innerHTML = form;
+        var table = this.renderTable();
+        el.innerHTML = table;
     }
 
     renderTable() {
@@ -212,7 +212,7 @@ class lists {
         for (var i = 0; i < this.model.columns.length; i++) {
             var col = this.model.columns[i];
             var visible = this.getVisibilityStyle(col.visible);
-            result += '<th scope="col" ' + visible + ' >' + col.Caption + '</th>';
+            result += '<th scope="col" ' + visible + ' >' + col.caption + '</th>';
         }
         result += '</tr>';
         return result;
@@ -239,7 +239,7 @@ class lists {
         );
         for (var i = 0; i < this.model.columns.length; i++) {
             var col = this.model.columns[i];
-            var cellValue = row[col.Name];
+            var cellValue = row[col.name];
             if (typeof (cellValue) == 'undefined' || cellValue == null)
                 cellValue = "";
             cells += this.renderTableCell(col.visible, cellValue);
