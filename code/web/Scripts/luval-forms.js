@@ -172,3 +172,10 @@
     }
 
 }
+
+class lists {
+    constructor(model, list) {
+        this.model = model;
+        this.list = list;
+    }
+}
