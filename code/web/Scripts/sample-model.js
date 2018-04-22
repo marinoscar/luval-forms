@@ -6,6 +6,12 @@
     fields: [
         {
             row: 1,
+            id: "id",
+            name: "Id",
+            type: "hidden",
+        },
+        {
+            row: 1,
             id: "code",
             name: "Code",
             label: "Code",

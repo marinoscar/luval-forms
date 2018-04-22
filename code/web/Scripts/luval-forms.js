@@ -58,6 +58,8 @@
 
         field["fieldId"] = fieldId;
         switch (field.type) {
+            case "hidden":
+                return this.renderHidden(fieldId, field);
             case "select":
                 field["input"] = this.renderSelect(fieldId, field);
                 break;
@@ -90,6 +92,11 @@
             field["helpElementTag"] = 'aria-describedby="' + fieldId + '-help"';
         var result = template(field);
         return result;
+    }
+
+    renderHidden(fieldId, field) {
+        var template = _.template('<input type="hidden" id="<%= id %>" name="<%= name %>" value="<%= value %>">');
+        return template({ id: fieldId, value: field.value, name: field.name });
     }
 
     renderSelect(fieldId, field) {
