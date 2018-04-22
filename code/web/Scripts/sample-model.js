@@ -47,5 +47,13 @@
             type: "textarea",
             rows: 4
         }
-    ]
+    ],
+    commands: [
+        {
+            id: "save",
+            text: "Save",
+            type: "submit",
+            classType: "primary"
+        }
+    ],
 }

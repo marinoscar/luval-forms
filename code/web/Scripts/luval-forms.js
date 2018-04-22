@@ -30,13 +30,37 @@
     }
 
     renderForm() {
-        var formBody = this.renderFields();
+        var formFields = this.renderFields();
+        var commands = this.renderCommands();
         var template = _.template(
             `<form id="<%= id %>" method:"<%= method %>" action="<%= action %>" >
-                <%= formBody %>
+                <%= formFields %>
+                <%= commands %>
             </form >`
         );
-        var result = template({ id: this.model.id, method: this.model.method, action: this.model.action, formBody: formBody });
+        var result = template(
+            {
+                id: this.model.id,
+                method: this.model.method,
+                action: this.model.action,
+                formFields: formFields,
+                commands: commands,
+            }
+        );
+        return result;
+    }
+
+    renderCommands() {
+        forms.sanitizeModel(this.model, 'commands', []);
+        var result = '';
+        for (var i = 0; i < this.model.commands.length; i++) {
+            var command = this.model.commands[i];
+            forms.sanitizeModel(command, 'type', 'submit');
+            forms.sanitizeModel(command, 'classType', 'primary');
+            forms.sanitizeModel(command, 'text', 'Submit');
+            var template = _.template(`<button type="<%= type %>" class="btn btn-<%= classType %>"><%= text %></button>`);
+            result += template(command);
+        }
         return result;
     }
 
