@@ -30,6 +30,7 @@
             type: "select",
             help: "The name identifies the company",
             attributes: [{ "required": "" }],
+            value: "2",
             items: [{ text: "EY", value: "1" }, { text: "Exxon", value: "2" }, { text: "Monsanto", value: "3" }]
         }
     ]

@@ -57,7 +57,13 @@
             helpElement = this.renderHelpElement(fieldId, field);
 
         field["fieldId"] = fieldId;
-        field["input"] = this.renderInput(fieldId, helpElement, field);
+        switch (field.type) {
+            case "select":
+                field["input"] = this.renderSelect(fieldId, field);
+                break;
+            default:
+                field["input"] = this.renderInput(fieldId, helpElement, field);
+        }
         field["helpElement"] = helpElement;
 
         var template = _.template(
@@ -74,9 +80,6 @@
     }
 
     renderInput(fieldId, helpElementTag, field) {
-        if (typeof (field.value) == 'undefined' && field.value == null)
-            field.value = '';
-
         var template = _.template(
             `
             <input class="form-control" id="<%= fieldId %>" name="<%= name %>" type="<%= type %>" value="<%= value %>" <% helpElementTag %> placeholder="<%= placeholder %>">
@@ -86,6 +89,29 @@
         if (typeof (helpElementTag) != 'undefined' && helpElementTag != null)
             field["helpElementTag"] = 'aria-describedby="' + fieldId + '-help"';
         var result = template(field);
+        return result;
+    }
+
+    renderSelect(fieldId, field) {
+        forms.sanitizeModel(field, 'items', []);
+        var template = _.template(
+            `
+            <select class="form-control" id="<%= fieldId %>" name="<%= name %>">
+                <%= options %>
+            </select>
+            `
+        );
+        var options = '';
+        for (var i = 0; i < field.items.length; i++) {
+            var item = field.items[i];
+            forms.sanitizeModel(item, 'text');
+            forms.sanitizeModel(item, 'value');
+            var selected = '';
+            if (item.value == field.value)
+                selected = "selected";
+            options += '<option ' + selected + ' value="' + item.value + '">' + item.text + '</option>\n';
+        }
+        var result = template({ fieldId: fieldId, name: field.name, options: options });
         return result;
     }
 
