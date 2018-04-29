@@ -11,12 +11,13 @@
 @section formScripts{
     <script type="text/javascript">
         $(function () {
-            $('#client-list').DataTable();
             var formBuilder = new forms(simpleForm);
-            formBuilder.render('sample-form');
-            var listBuilder = new lists(simpleList, simpleData);
-            listBuilder.render('sample-list');
-
+            formBuilder.render('sample-form', function (el) {
+                var listBuilder = new lists(simpleList, simpleData);
+                listBuilder.render('sample-list', function (el) {
+                    $('#client-list').DataTable();
+                });
+            });
         });
     </script>
 }
