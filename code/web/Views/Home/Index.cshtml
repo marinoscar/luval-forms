@@ -1,15 +1,17 @@
 ﻿
 @{
     ViewBag.Title = "Home";
-    Layout = "~/Views/Shared/_Main.cshtml";
+    Layout = "~/Views/Shared/_FormBase.cshtml";
 }
 
-@section scripts{
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.9.0/underscore-min.js" integrity="sha256-tr4FvXVZp8nkW7TvW4OYA5KWOs7fc2m5B6LN+AOn1VI=" crossorigin="anonymous"></script>
-    <script src="~/Scripts/sample-model.js"></script>
-    <script src="~/Scripts/luval-forms.js"></script>
+@section formStyles{
+
+}
+
+@section formScripts{
     <script type="text/javascript">
         $(function () {
+            $('#client-list').DataTable();
             var formBuilder = new forms(simpleForm);
             formBuilder.render('sample-form');
             var listBuilder = new lists(simpleList, simpleData);

@@ -194,7 +194,7 @@ class lists {
         var body = this.renderTableBody();
         var template = _.template(
             `
-            <table class="table" data-table-luval="true" data-column-key="<%= keyColumnName %>">
+            <table id="<%= id %>" class="table" data-table-luval="true" data-column-key="<%= keyColumnName %>">
                 <thead>
                     <%= tableHeader %>
                 </thead>
@@ -204,7 +204,7 @@ class lists {
             </table>
             `
         );
-        return template({ keyColumnName: this.model.keyColumnName, tableHeader: header, tableBody: body });
+        return template({ id: this.model.id, keyColumnName: this.model.keyColumnName, tableHeader: header, tableBody: body });
     }
 
     renderTableHeader() {
