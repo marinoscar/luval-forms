@@ -4,13 +4,17 @@
 }
 
 @section styles{
-    <link rel="stylesheet" href="https://cdn.datatables.net/1.10.16/css/jquery.dataTables.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.0.0/css/bootstrap.css">
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.10.16/css/dataTables.bootstrap4.min.css">
     @RenderSection("formStyles", false);
 }
 
 @section scripts{
     <script src="https://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.9.0/underscore-min.js" integrity="sha256-tr4FvXVZp8nkW7TvW4OYA5KWOs7fc2m5B6LN+AOn1VI=" crossorigin="anonymous"></script>
     <script src="https://cdn.datatables.net/1.10.16/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdn.datatables.net/1.10.16/js/dataTables.bootstrap4.min.js"></script>
+
+    <script src="~/Scripts/utils.js"></script>
     <script src="~/Scripts/sample-model.js"></script>
     <script src="~/Scripts/luval-forms.js"></script>
     @RenderSection("formScripts", false);
