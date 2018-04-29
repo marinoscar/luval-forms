@@ -129,7 +129,7 @@
     renderTextArea(fieldId, field) {
         forms.sanitizeModel(field, 'rows', '3');
         var template = _.template(
-            `<textarea class="form-control" id="<%= id %>" rows="<%= rows %>"></textarea>`
+            `<textarea class="form-control" id="<%= id %>" name="<%= name %>" rows="<%= rows %>"></textarea>`
         );
         field.id = fieldId;
         return template(field);
