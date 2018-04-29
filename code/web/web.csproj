@@ -109,6 +109,7 @@
     <Content Include="Views\Shared\_Main.cshtml" />
     <Content Include="Views\Home\Index.cshtml" />
     <Content Include="Views\Rank\Index.cshtml" />
+    <Content Include="Views\Shared\_FormBase.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
