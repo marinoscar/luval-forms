@@ -92,6 +92,7 @@
     <Content Include="Scripts\luval-forms.js" />
     <Content Include="Scripts\models.js" />
     <Content Include="Scripts\sample-model.js" />
+    <Content Include="Scripts\utils.js" />
     <Content Include="Web.config" />
   </ItemGroup>
   <ItemGroup>
