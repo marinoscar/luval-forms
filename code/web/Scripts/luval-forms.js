@@ -24,10 +24,12 @@
         }
     }
 
-    render(elementId) {
+    render(elementId, onComplete) {
         var el = document.getElementById(elementId);
         var form = this.renderForm();
         el.innerHTML = form;
+        if (!utils.isNull(onComplete))
+            onComplete(el);
     }
 
     renderForm() {
@@ -183,10 +185,12 @@ class lists {
         forms.sanitizeModel(this.model, "id", "table-0001");
     }
 
-    render(elementId) {
+    render(elementId, onComplete) {
         var el = document.getElementById(elementId);
         var table = this.renderTable();
         el.innerHTML = table;
+        if (!utils.isNull(onComplete))
+            onComplete(el);
     }
 
     renderTable() {
