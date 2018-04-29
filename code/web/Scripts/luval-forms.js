@@ -7,10 +7,10 @@
     }
 
     static sanitizeModel(model, attribute, defaultValue) {
-        if (typeof (defaultValue) == 'undefined' || defaultValue == null)
+        if (utils.isNull(defaultValue))
             defaultValue = "";
 
-        if (typeof (model[attribute]) == 'undefined' || model[attribute] == null)
+        if (utils.isNull(model[attribute]))
             model[attribute] = defaultValue;
     }
 
@@ -78,7 +78,7 @@
     renderField(formId, field) {
         var fieldId = formId + "-" + field.id;
         var helpElement = null;
-        if (typeof (field.help) != 'undefined' && field.help != null)
+        if (!utils.isNull(field.help))
             helpElement = this.renderHelpElement(fieldId, field);
 
         field["fieldId"] = fieldId;
@@ -118,7 +118,7 @@
             `
         );
         field["fieldId"] = fieldId;
-        if (typeof (helpElementTag) != 'undefined' && helpElementTag != null)
+        if (!utils.isNull(helpElementTag))
             field["helpElementTag"] = 'aria-describedby="' + fieldId + '-help"';
         var result = template(field);
         return result;
