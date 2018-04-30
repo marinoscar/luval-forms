@@ -47,7 +47,7 @@
                 method: this.model.method,
                 action: this.model.action,
                 formFields: formFields,
-                commands: commands,
+                commands: commands
             }
         );
         return result;
@@ -155,7 +155,7 @@
             forms.sanitizeModel(item, 'text');
             forms.sanitizeModel(item, 'value');
             var selected = '';
-            if (item.value == field.value)
+            if (item.value === field.value)
                 selected = "selected";
             options += '<option ' + selected + ' value="' + item.value + '">' + item.text + '</option>\n';
         }
@@ -245,7 +245,7 @@ class lists {
         for (var i = 0; i < this.model.columns.length; i++) {
             var col = this.model.columns[i];
             var cellValue = row[col.name];
-            if (typeof (cellValue) == 'undefined' || cellValue == null)
+            if (utils.isNull(cellValue))
                 cellValue = "";
             cells += this.renderTableCell(col.visible, cellValue);
 
@@ -259,7 +259,7 @@ class lists {
 
     getVisibilityStyle(isVisible) {
         var result = '';
-        if (isVisible == "false")
+        if (isVisible === "false")
             result = 'style="display:none;"';
         return result;
     }

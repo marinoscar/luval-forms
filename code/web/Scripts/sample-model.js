@@ -8,7 +8,7 @@
             row: 1,
             id: "id",
             name: "Id",
-            type: "hidden",
+            type: "hidden"
         },
         {
             row: 1,
@@ -17,7 +17,7 @@
             label: "Code",
             placeholder: "Enter code",
             type: "text",
-            attributes: [{ "required": "true" }],
+            attributes: [{ "required": "true" }]
         },
         {
             row: 2,
@@ -26,7 +26,7 @@
             label: "Name",
             type: "text",
             help: "The name identifies the client",
-            attributes: [{ "required": "" }],
+            attributes: [{ "required": "" }]
         },
         {
             row: 2,
@@ -52,7 +52,7 @@
             id: "datecontrol",
             name: "Date",
             label: "Date",
-            type: "Date",
+            type: "Date"
         }
     ],
     commands: [
@@ -64,8 +64,8 @@
             formAction: "",
             formMethod: "post"
         }
-    ],
-}
+    ]
+};
 
 var simpleList = {
     id: "client-list",
@@ -78,11 +78,11 @@ var simpleList = {
     keyColumnName: "Id",
     controllerName: "Sample",
 
-}
+};
 
 var simpleData = [
     { Id: 1, Code: "MYM-001", Name: "Oscar Marin", Description: "None", Date: "1983-01-19" },
-    { Id: 2, Code: "MYM-002",  Name: "Pamela Molina", Description: "None", Date: "1983-01-19" },
-    { Id: 3, Code: "MYM-003",  Name: "Lucia Marin", Description: "None", Date: "1983-01-19" },
-    { Id: 4, Code: "MYM-004",  Name: "Valeria Marin", Description: "None", Date: "1983-01-19" },
-]
+    { Id: 2, Code: "MYM-002", Name: "Pamela Molina", Description: "None", Date: "1983-01-19" },
+    { Id: 3, Code: "MYM-003", Name: "Lucia Marin", Description: "None", Date: "1983-01-19" },
+    { Id: 4, Code: "MYM-004", Name: "Valeria Marin", Description: "None", Date: "1983-01-19" },
+];
