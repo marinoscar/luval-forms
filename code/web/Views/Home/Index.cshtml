@@ -13,9 +13,9 @@
         $(function () {
             var formBuilder = new forms(simpleForm);
             formBuilder.render('sample-form', function (el) {
-                var listBuilder = new lists(simpleList, simpleData);
-                listBuilder.render('sample-list', function (el) {
-                    $('#client-list').DataTable();
+                var builder = new listBuilder(simpleList, simpleData);
+                builder.render('sample-list', function (el) {
+                    
                 });
             });
         });
