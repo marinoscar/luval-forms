@@ -198,7 +198,7 @@ class lists {
         var body = this.renderTableBody();
         var template = _.template(
             `
-            <table id="<%= id %>" class="table table-hover" data-table-luval="true" data-column-key="<%= keyColumnName %>">
+            <table id="<%= id %>" class="table table-hover table-striped" data-table-luval="true" data-column-key="<%= keyColumnName %>">
                 <thead>
                     <%= tableHeader %>
                 </thead>
@@ -253,7 +253,7 @@ class lists {
     }
 
     renderTableCell(isVisible, text) {
-        return '<td ' + this.getVisibilityStyle(isVisible) + ' >' + text + '</td>'; 
+        return '<td ' + this.getVisibilityStyle(isVisible) + ' >' + text + '</td>';
     }
 
     getVisibilityStyle(isVisible) {
@@ -274,8 +274,26 @@ class listBuilder {
 
     render(elementId, onComplete) {
         var el = document.getElementById(elementId);
+        var template = _.template(
+            `
+            <div class="row">
+                <div class="col-md-12">
+                    <%= table %>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="btn-group" role="group" aria-label="Toolbar">
+                      <button type="button" class="btn btn-success" style="width: 100px;"><i class="fas fa-plus" style="padding-right: 10px;"></i>Add</button>
+                      <button type="button" class="btn btn-secondary" style="width: 100px;"><i class="fas fa-edit" style="padding-right: 10px;"></i>Edit</button>
+                      <button type="button" class="btn btn-danger" style="width: 100px;"><i class="fas fa-trash" style="padding-right: 10px;"></i>Delete</button>
+                    </div>
+                </div>
+            </div>
+            `
+        );
         var table = this.tableBuilder.renderTable();
-        el.innerHTML = table;
+        el.innerHTML = template({ table: table });
 
         $('#' + this.model.id).DataTable();
         this.addSelectRowFunc();
