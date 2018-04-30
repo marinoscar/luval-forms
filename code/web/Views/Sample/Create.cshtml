@@ -1,0 +1,20 @@
+﻿
+@{
+    ViewBag.Title = "Create";
+    Layout = "~/Views/Shared/_FormBase.cshtml";
+}
+
+
+@section formScripts{
+    <script type="text/javascript">
+        $(function () {
+            var builder = new forms(simpleForm);
+            builder.render('sample-form', function (el) {
+            });
+        });
+    </script>
+}
+
+<h2>Add Sample</h2>
+<div id="simpleForm"></div>
+

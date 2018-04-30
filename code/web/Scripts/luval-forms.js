@@ -180,7 +180,7 @@ class lists {
         this.model = model;
         this.list = list;
         forms.sanitizeModel(this.model, "keyColumnName", "Id");
-        forms.sanitizeModel(this.model, "commands", []);
+        //forms.sanitizeModel(this.model, "commands", []);
         forms.sanitizeModel(this.model, "columns", []);
         forms.sanitizeModel(this.model, "id", "table-0001");
     }
@@ -284,9 +284,9 @@ class listBuilder {
             <div class="row">
                 <div class="col-md-12">
                     <div class="btn-group" role="group" aria-label="Toolbar">
-                      <button type="button" class="btn btn-success" style="width: 100px;"><i class="fas fa-plus" style="padding-right: 10px;"></i>Add</button>
-                      <button type="button" class="btn btn-secondary" style="width: 100px;"><i class="fas fa-edit" style="padding-right: 10px;"></i>Edit</button>
-                      <button type="button" class="btn btn-danger" style="width: 100px;"><i class="fas fa-trash" style="padding-right: 10px;"></i>Delete</button>
+                      <button data-luval-action="add" type="button" class="btn btn-success" style="width: 100px;"><i class="fas fa-plus" style="padding-right: 10px;"></i>Add</button>
+                      <button data-luval-action="edit" type="button" class="btn btn-secondary" style="width: 100px;"><i class="fas fa-edit" style="padding-right: 10px;"></i>Edit</button>
+                      <button data-luval-action="remove" type="button" class="btn btn-danger" style="width: 100px;"><i class="fas fa-trash" style="padding-right: 10px;"></i>Delete</button>
                     </div>
                 </div>
             </div>

@@ -76,10 +76,7 @@ var simpleList = {
         { caption: "Date", name: "Date", visible: "true" },
     ],
     keyColumnName: "Id",
-    commands: [
-        { text: "Update", classType: "primary" },
-        { text: "Delete", classType: "secundary" },
-    ]
+    controllerName: "Sample",
 
 }
 

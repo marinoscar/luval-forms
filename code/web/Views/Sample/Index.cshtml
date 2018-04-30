@@ -1,0 +1,28 @@
+﻿
+@{
+    ViewBag.Title = "Sample";
+    Layout = "~/Views/Shared/_FormBase.cshtml";
+}
+
+@section formScripts{
+    <script type="text/javascript">
+        $(function () {
+            var builder = new listBuilder(simpleList, simpleData);
+            builder.render('sample-list', function (el) {
+
+            });
+        });
+    </script>
+}
+
+<div class="row">
+    <div class="col-sm-12">
+        <h2>Sample Index</h2>
+    </div>
+</div>
+<div class="row">
+    <div class="col-sm-12">
+        <div id="sample-list"></div>
+    </div>
+</div>
+
