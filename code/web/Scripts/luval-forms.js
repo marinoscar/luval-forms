@@ -198,7 +198,7 @@ class lists {
         var body = this.renderTableBody();
         var template = _.template(
             `
-            <table id="<%= id %>" class="table" data-table-luval="true" data-column-key="<%= keyColumnName %>">
+            <table id="<%= id %>" class="table table-hover" data-table-luval="true" data-column-key="<%= keyColumnName %>">
                 <thead>
                     <%= tableHeader %>
                 </thead>
@@ -263,4 +263,44 @@ class lists {
         return result;
     }
 
+}
+
+class listBuilder {
+    constructor(model, list) {
+        this.model = model;
+        this.list = list;
+        this.tableBuilder = new lists(this.model, this.list);
+    }
+
+    render(elementId, onComplete) {
+        var el = document.getElementById(elementId);
+        var table = this.tableBuilder.renderTable();
+        el.innerHTML = table;
+
+        $('#' + this.model.id).DataTable();
+        this.addSelectRowFunc();
+
+        if (!utils.isNull(onComplete)) {
+            onComplete(el);
+        }
+    }
+
+    addSelectRowFunc() {
+        var el = $('#' + this.model.id);
+        var table = el.DataTable();
+
+        $('#' + this.model.id + ' tbody').on('click', 'tr', function () {
+            if ($(this).hasClass('table-active')) {
+                $(this).removeClass('table-active');
+            }
+            else {
+                table.$('tr.table-active').removeClass('table-active');
+                $(this).addClass('table-active');
+            }
+        });
+
+        //$('#button').click(function () {
+        //    table.row('.selected').remove().draw(false);
+        //});
+    }
 }
