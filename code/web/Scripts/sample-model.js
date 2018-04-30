@@ -1,7 +1,7 @@
 ﻿var simpleForm = {
     id: "client-form",
     method: "post",
-    action: "/",
+    action: "/Sample/Create",
     title: "Client",
     fields: [
         {
@@ -61,7 +61,7 @@
             text: "Save",
             type: "submit",
             classType: "primary",
-            formAction: "/action",
+            formAction: "",
             formMethod: "post"
         }
     ],

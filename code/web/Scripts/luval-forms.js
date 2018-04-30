@@ -36,7 +36,7 @@
         var formFields = this.renderFields();
         var commands = this.renderCommands();
         var template = _.template(
-            `<form id="<%= id %>" method:"<%= method %>" action="<%= action %>" >
+            `<form id="<%= id %>" method="<%= method %>" action="<%= action %>" >
                 <%= formFields %>
                 <%= commands %>
             </form >`
@@ -183,6 +183,7 @@ class lists {
         //forms.sanitizeModel(this.model, "commands", []);
         forms.sanitizeModel(this.model, "columns", []);
         forms.sanitizeModel(this.model, "id", "table-0001");
+        forms.sanitizeModel(this.model, "controllerName");
     }
 
     render(elementId, onComplete) {
@@ -284,7 +285,7 @@ class listBuilder {
             <div class="row">
                 <div class="col-md-12">
                     <div class="btn-group" role="group" aria-label="Toolbar">
-                      <button data-luval-action="add" type="button" class="btn btn-success" style="width: 100px;"><i class="fas fa-plus" style="padding-right: 10px;"></i>Add</button>
+                      <button data-luval-action="create" type="button" class="btn btn-success" style="width: 100px;"><i class="fas fa-plus" style="padding-right: 10px;"></i>Add</button>
                       <button data-luval-action="edit" type="button" class="btn btn-secondary" style="width: 100px;"><i class="fas fa-edit" style="padding-right: 10px;"></i>Edit</button>
                       <button data-luval-action="remove" type="button" class="btn btn-danger" style="width: 100px;"><i class="fas fa-trash" style="padding-right: 10px;"></i>Delete</button>
                     </div>
@@ -297,7 +298,7 @@ class listBuilder {
 
         $('#' + this.model.id).DataTable();
         this.addSelectRowFunc();
-
+        this.addButtonEventsFunc();
         if (!utils.isNull(onComplete)) {
             onComplete(el);
         }
@@ -320,5 +321,16 @@ class listBuilder {
         //$('#button').click(function () {
         //    table.row('.selected').remove().draw(false);
         //});
+    }
+
+    addButtonEventsFunc() {
+        this.addCreateFunc();
+    }
+
+    addCreateFunc() {
+        var modelVal = this.model;
+        $('*[data-luval-action="create"]').on('click', function () {
+            window.location.href = '/' + modelVal.controllerName + '/Create';
+        });
     }
 }
