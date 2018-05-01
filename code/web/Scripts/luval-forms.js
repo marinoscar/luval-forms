@@ -323,6 +323,12 @@ class listBuilder {
         //});
     }
 
+    getData(onComplete) {
+        $.getJson(this.model.controllerName + '/ListAll', function (data) {
+            onComplete(data)
+        });
+    }
+
     addButtonEventsFunc() {
         this.addCreateFunc();
     }
