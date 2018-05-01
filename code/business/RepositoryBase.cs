@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace business
 {
-    public class RepositoryBase
+    public abstract class RepositoryBase
     {
 
         private Func<string> _resolveUser;
@@ -22,6 +22,23 @@ namespace business
         {
             Context = context;
             _resolveUser = resolveUser;
+        }
+
+
+        public abstract List<Dictionary<string, object>> GetAll();
+
+        protected virtual List<Dictionary<string, object>> GetAll(string entityName)
+        {
+            var sql = "SELECT * FROM [{0}]".Fi(entityName);
+            return Context.Db.ExecuteToDictionaryList(sql);
+        }
+
+        public abstract Dictionary<string, object> GetById(int id);
+
+        protected virtual Dictionary<string, object>  GetById(string entityName, int id)
+        {
+            var sql = "SELECT * FROM [{0}] WHERE Id = {1}".Fi(entityName, id);
+            return Context.Db.ExecuteToDictionaryList(sql).FirstOrDefault();
         }
 
         public virtual void Insert(Entity entity)

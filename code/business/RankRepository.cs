@@ -7,17 +7,11 @@ using System.Threading.Tasks;
 
 namespace business
 {
-    public class RankRepository : RepositoryBase
+    public class RankRepository : EntityRepository
     {
-        public RankRepository() : base(new SqlDataContext())
+        public RankRepository() : base("Rank")
         {
 
-        }
-
-        public List<Dictionary<string, object>> GetRanks()
-        {
-            var sql = "SELECT Id, Rank, ClientBillRate, BillRate, CostRate from Rank";
-            return Context.Db.ExecuteToDictionaryList(sql);
         }
     }
 }
