@@ -40,7 +40,17 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="EntityRepository.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="RankRepository.cs" />
+    <Compile Include="RepositoryBase.cs" />
+    <Compile Include="UserResolver.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\data\data.csproj">
+      <Project>{e1e574f8-f88e-4f57-9b39-50650ac1405d}</Project>
+      <Name>data</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

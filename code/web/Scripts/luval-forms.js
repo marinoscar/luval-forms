@@ -175,7 +175,7 @@
 
 }
 
-class lists {
+class tables {
     constructor(model, list) {
         this.model = model;
         this.list = list;
@@ -267,10 +267,8 @@ class lists {
 }
 
 class listBuilder {
-    constructor(model, list) {
+    constructor(model) {
         this.model = model;
-        this.list = list;
-        this.tableBuilder = new lists(this.model, this.list);
     }
 
     render(elementId, onComplete) {
@@ -293,15 +291,23 @@ class listBuilder {
             </div>
             `
         );
-        var table = this.tableBuilder.renderTable();
-        el.innerHTML = template({ table: table });
 
-        $('#' + this.model.id).DataTable();
+        this.getData(function (data) {
+            var table = new tables(this.model, data);
+            el.innerHTML = template({ table: table });
+            $('#' + this.model.id).DataTable();
+
+            //attach other events
+            this.attachEvents();
+            if (!utils.isNull(onComplete)) {
+                onComplete(el);
+            }
+        });
+    }
+
+    attachEvents() {
         this.addSelectRowFunc();
         this.addButtonEventsFunc();
-        if (!utils.isNull(onComplete)) {
-            onComplete(el);
-        }
     }
 
     addSelectRowFunc() {
@@ -317,14 +323,10 @@ class listBuilder {
                 $(this).addClass('table-active');
             }
         });
-
-        //$('#button').click(function () {
-        //    table.row('.selected').remove().draw(false);
-        //});
     }
 
     getData(onComplete) {
-        $.getJson(this.model.controllerName + '/ListAll', function (data) {
+        $.getJSON(this.model.controllerName + '/ListAll', function (data) {
             onComplete(data)
         });
     }
