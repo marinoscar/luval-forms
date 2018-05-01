@@ -11,37 +11,22 @@ namespace business
     {
         private readonly int CommandTimeoutInSeconds = 90;
 
-        public IDbConnection Connection { get; private set; }
+        public IDbConnectionProvider ConnectionProvider { get; private set; }
 
-        public Database(IDbConnection connection)
+        public Database(IDbConnectionProvider connectionProvider)
         {
-            Connection = connection;
+            ConnectionProvider = connectionProvider;
         }
 
 
-
-        private void OpenConnection()
-        {
-            try
-            {
-                if (Connection.State == ConnectionState.Closed)
-                {
-                    Connection.Open();
-                }
-            }
-            catch (Exception ex)
-            {
-                throw new InvalidOperationException("Unable to establish a connection ", ex);
-            }
-        }
 
         public object WithConnection(Func<IDbConnection, object> doSomething)
         {
             object result = null;
             try
             {
-                OpenConnection();
-                result = doSomething(Connection);
+                ConnectionProvider.OpenConnection();
+                result = doSomething(ConnectionProvider.Connection);
             }
             catch (Exception ex)
             {
@@ -49,7 +34,7 @@ namespace business
             }
             finally
             {
-                Connection.Close();
+                ConnectionProvider.CloseConnection();
             }
             return result;
         }
@@ -211,12 +196,11 @@ namespace business
 
             return WithConnection(conn =>
             {
-                var tran = transaction ?? conn.BeginTransaction();
                 var cmd = conn.CreateCommand();
                 cmd.CommandText = sqlStatement;
                 cmd.CommandType = type;
                 cmd.Connection = conn;
-                cmd.Transaction = tran;
+                cmd.Transaction = ConnectionProvider.BeginTransaction();
                 cmd.CommandTimeout = CommandTimeoutInSeconds;
                 if (parameters != null && parameters.Any())
                     parameters.ToList().ForEach(p => cmd.Parameters.Add(p));
