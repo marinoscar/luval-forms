@@ -13,6 +13,8 @@ namespace data
             Items = new List<Dictionary<string, object>>(25);
         }
         public string Name { get; set; }
+        public string IdentityColumnName { get; set; }
+        public string PrimaryKeyName { get; set; }
         public List<Dictionary<string, object>> Items { get; set; }
     }
 }
