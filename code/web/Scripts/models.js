@@ -1,7 +1,7 @@
 ﻿var rankModel = {
     id: "rank-form",
     method: "post",
-    action: "/",
+    action: "/Rank/Create",
     title: "Ranks",
     fields: [
         {
@@ -47,7 +47,7 @@ var rankList = {
     id: "rank-list",
     columns: [
         { caption: "Id", name: "Id", visible: "false" },
-        { caption: "Name", name: "Rank", visible: "true" },
+        { caption: "Name", name: "Name", visible: "true" },
         { caption: "Client Bill Rate", name: "ClientBillRate", visible: "true" },
         { caption: "Bill Rate", name: "BillRate", visible: "true" },
         { caption: "Cost Rate", name: "CostRate", visible: "true" },

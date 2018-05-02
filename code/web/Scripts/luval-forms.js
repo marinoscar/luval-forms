@@ -292,13 +292,15 @@ class listBuilder {
             `
         );
 
+        var localModel = this.model;
+        var context = this;
         this.getData(function (data) {
-            var table = new tables(this.model, data);
+            var table = new tables(localModel, data).renderTable();
             el.innerHTML = template({ table: table });
-            $('#' + this.model.id).DataTable();
+            $('#' + localModel.id).DataTable();
 
             //attach other events
-            this.attachEvents();
+            context.attachEvents();
             if (!utils.isNull(onComplete)) {
                 onComplete(el);
             }
@@ -326,7 +328,7 @@ class listBuilder {
     }
 
     getData(onComplete) {
-        $.getJSON(this.model.controllerName + '/ListAll', function (data) {
+        $.getJSON('/' + this.model.controllerName + '/ListAll', function (data) {
             onComplete(data)
         });
     }
