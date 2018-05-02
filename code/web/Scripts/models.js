@@ -11,9 +11,9 @@
             value: "0",
         },
         {
-            id: "rank",
-            name: "Rank",
-            label: "Rank",
+            id: "name",
+            name: "Name",
+            label: "Name",
             type: "text",
             help: "The EY Rank",
             attributes: [{ "required": "" }],

@@ -12,7 +12,8 @@ namespace data
 
         private IDbConnection _connection;
         private IDbTransaction _transaction;
-        private bool _isTransactionActive;
+
+        public bool IsTransactionActive { get; private set; }
 
         public DbConnectionProvider(IDbConnection connection)
         {
@@ -32,7 +33,7 @@ namespace data
             if (_transaction == null)
             {
                 _transaction = _connection.BeginTransaction(isolationLevel);
-                _isTransactionActive = true;
+                IsTransactionActive = true;
             }
             return _transaction;
         }
@@ -53,7 +54,7 @@ namespace data
         {
             if (_transaction == null) return;
             _transaction.Commit();
-            _isTransactionActive = false;
+            IsTransactionActive = false;
             _transaction.Dispose();
             _transaction = null;
             CloseConnection();
@@ -61,7 +62,7 @@ namespace data
 
         public void Dispose()
         {
-            if (_transaction != null && _isTransactionActive)
+            if (_transaction != null && IsTransactionActive)
                 _transaction.Commit();
             if (_transaction != null)
                 _transaction.Dispose();
@@ -77,7 +78,7 @@ namespace data
         {
             if (_transaction == null) return;
             _transaction.Rollback();
-            _isTransactionActive = false;
+            IsTransactionActive = false;
             _transaction.Dispose();
             _transaction = null;
             CloseConnection();

@@ -12,6 +12,8 @@ namespace data
         IDbConnection Connection { get; }
         IDbTransaction BeginTransaction();
         IDbTransaction BeginTransaction(IsolationLevel isolationLevel);
+
+        bool IsTransactionActive { get; }
         void Commit();
         void Rollback();
 

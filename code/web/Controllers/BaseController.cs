@@ -6,6 +6,7 @@ using System.Web;
 using System.Web.Mvc;
 using System.Text;
 using Newtonsoft.Json;
+using web.Helpers;
 
 namespace web.Controllers
 {
@@ -38,13 +39,14 @@ namespace web.Controllers
         {
             try
             {
-                // TODO: Add insert logic here
-
+                var record = EntityHelper.ToDictionary(collection);
+                Repository.Insert(Repository.CreateEntity(record));
                 return RedirectToAction("Index");
             }
-            catch
+            catch(Exception ex) 
             {
-                return View();
+                ErrorHelper.Handle(ex,"Failed to create the record");
+                return Redirect("/");
             }
         }
 

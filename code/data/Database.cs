@@ -196,6 +196,7 @@ namespace data
 
             return WithConnection(conn =>
             {
+                var wasActive = ConnectionProvider.IsTransactionActive;
                 var cmd = conn.CreateCommand();
                 cmd.CommandText = sqlStatement;
                 cmd.CommandType = type;
@@ -208,6 +209,8 @@ namespace data
                 try
                 {
                     result = doSomething(cmd);
+                    if (!wasActive)
+                        ConnectionProvider.Commit();
                 }
                 catch (Exception ex)
                 {

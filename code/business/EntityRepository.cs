@@ -7,18 +7,18 @@ using System.Threading.Tasks;
 
 namespace business
 {
-    public class EntityRepository: RepositoryBase
+    public class EntityRepository : RepositoryBase
     {
 
         protected string EntityName { get; private set; }
 
 
-        public EntityRepository(string entityName): this(entityName, new SqlDataContext())
+        public EntityRepository(string entityName) : this(entityName, new SqlDataContext())
         {
 
         }
 
-        public EntityRepository(string entityName, DataContext context) : this(entityName,context, UserResolver.GetUserId)
+        public EntityRepository(string entityName, DataContext context) : this(entityName, context, UserResolver.GetUserId)
         {
 
         }
@@ -36,6 +36,22 @@ namespace business
         public override Dictionary<string, object> GetById(int id)
         {
             return GetById(EntityName, id);
+        }
+
+        public Entity CreateEntity(Dictionary<string, object> item)
+        {
+            return CreateEntity(new[] { item });
+        }
+
+        public Entity CreateEntity(IEnumerable<Dictionary<string, object>> items)
+        {
+            return new Entity()
+            {
+                Name = EntityName,
+                IdentityColumnName = "Id",
+                PrimaryKeyName = "Id",
+                Items = new List<Dictionary<string, object>>(items)
+            };
         }
     }
 }

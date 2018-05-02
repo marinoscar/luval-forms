@@ -117,6 +117,7 @@
         var template = _.template(
             `
             <input class="form-control" id="<%= fieldId %>" name="<%= name %>" type="<%= type %>" value="<%= value %>" <% helpElementTag %> placeholder="<%= placeholder %>">
+            <input id="_meta_<%= fieldId %>" name="_<%= name %>" type="hidden" value="<%= type %>">
             `
         );
         field["fieldId"] = fieldId;
@@ -129,7 +130,10 @@
     renderTextArea(fieldId, field) {
         forms.sanitizeModel(field, 'rows', '3');
         var template = _.template(
-            `<textarea class="form-control" id="<%= id %>" name="<%= name %>" rows="<%= rows %>"></textarea>`
+            `
+            <textarea class="form-control" id="<%= id %>" name="<%= name %>" rows="<%= rows %>"></textarea>
+            <input id="_meta_<%= id %>" name="_<%= name %>" type="hidden" value="text">
+            `
         );
         field.id = fieldId;
         return template(field);
