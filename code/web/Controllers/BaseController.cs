@@ -7,6 +7,7 @@ using System.Web.Mvc;
 using System.Text;
 using Newtonsoft.Json;
 using web.Helpers;
+using System.Collections.Specialized;
 
 namespace web.Controllers
 {
@@ -43,9 +44,9 @@ namespace web.Controllers
                 Repository.Insert(Repository.CreateEntity(record));
                 return RedirectToAction("Index");
             }
-            catch(Exception ex) 
+            catch (Exception ex)
             {
-                ErrorHelper.Handle(ex,"Failed to create the record");
+                ErrorHelper.Handle(ex, "Failed to create the record");
                 return Redirect("/");
             }
         }
@@ -70,9 +71,25 @@ namespace web.Controllers
                 Repository.Update(Repository.CreateEntity(record));
                 return RedirectToAction("Index");
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
-                ErrorHelper.Handle(ex, "Failed to create the record");
+                ErrorHelper.Handle(ex, "Failed to update the record");
+                return Redirect("/");
+            }
+        }
+
+        [HttpPost]
+        public ActionResult Delete(int id)
+        {
+            try
+            {
+                var record = new Dictionary<string, object>() { { "Id", id } };
+                Repository.Delete(Repository.CreateEntity(record));
+                return RedirectToAction("Index");
+            }
+            catch (Exception ex)
+            {
+                ErrorHelper.Handle(ex, "Failed to delete the record");
                 return Redirect("/");
             }
         }
