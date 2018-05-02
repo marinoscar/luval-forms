@@ -32,6 +32,21 @@
             onComplete(el);
     }
 
+    loadValues(id) {
+        var url = '/' + this.model.controllerName + '/GetEntity/' + id;
+        var context = this;
+        $.getJSON(url, function (data) {
+            for (var i = 0; i < context.model.fields.length; i++) {
+                var field = context.model.fields[i];
+                var value = '';
+
+                if (!utils.isNullOrEmpty(data[field.name]))
+                    value = data[field.name];
+                $('#' + field.fieldId).val(value);
+            }
+        });
+    }
+
     renderForm() {
         var formFields = this.renderFields();
         var commands = this.renderCommands();
@@ -63,17 +78,6 @@
             `
         );
         return template({ text: "Submit" })
-        //forms.sanitizeModel(this.model, 'commands', []);
-        //var result = '';
-        //for (var i = 0; i < this.model.commands.length; i++) {
-        //    var command = this.model.commands[i];
-        //    forms.sanitizeModel(command, 'type', 'submit');
-        //    forms.sanitizeModel(command, 'classType', 'primary');
-        //    forms.sanitizeModel(command, 'text', 'Submit');
-        //    var template = _.template(`<button type="<%= type %>" class="btn btn-<%= classType %>"><%= text %></button>`);
-        //    result += template(command);
-        //}
-        return result;
     }
 
     renderFields() {

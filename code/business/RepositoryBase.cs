@@ -52,7 +52,7 @@ namespace business
         {
             foreach (var item in entity.Items)
                 PrepareForUpdate(item);
-            Context.Insert(entity);
+            Context.Update(entity);
         }
 
         public virtual void Delete(Entity entity)

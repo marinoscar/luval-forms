@@ -7,15 +7,18 @@
 @section formScripts{
     <script type="text/javascript">
         $(function () {
+            //set the model in edit mode
+            rankModel.isEditMode = true;
             var builder = new forms(rankModel);
             builder.render('rank-div', function (data) {
-                //on complete
+                //on complete -> Load Values
+                builder.loadValues( @ViewBag.Id );
             });
         });
     </script>
 }
 
-<h2>Ranks</h2>
+<h2>Edit Ranks</h2>
 <div id="rank-div"></div>
 
 

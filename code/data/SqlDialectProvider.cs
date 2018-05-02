@@ -60,8 +60,8 @@ namespace data
         {
             var cols = item.Keys.Where(i => i != entity.PrimaryKeyName && i != entity.IdentityColumnName).ToList();
             var values = item.Where(i => cols.Contains(i.Key)).ToList();
-            var sqlValues = values.Select(i => string.Format("[{0}] = {1}", i.Key, i.Value.ToSql()));
-            return string.Format("UPDATE {0} SET {1} WHERE {2}", GetTableName(entity), sqlValues, GetPkWhereStatement(entity, item));
+            var sqlValues = values.Select(i => string.Format("[{0}] = {1}", i.Key, i.Value.ToSql())).ToList();
+            return string.Format("UPDATE {0} SET {1} WHERE {2}", GetTableName(entity), string.Join(",", sqlValues), GetPkWhereStatement(entity, item));
         }
 
         private List<string> GetColumnsForInsert(Entity entity, Dictionary<string, object> item)
@@ -71,7 +71,7 @@ namespace data
 
         private string GetPkWhereStatement(Entity entity, Dictionary<string, object> item)
         {
-            return string.Format("{0} = {1}", GetTableName(entity), item[entity.PrimaryKeyName].ToSql());
+            return string.Format("[{0}] = {1}", entity.PrimaryKeyName, item[entity.PrimaryKeyName].ToSql());
         }
 
         private string GetTableName(Entity entity)

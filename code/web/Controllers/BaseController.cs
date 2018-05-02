@@ -66,13 +66,14 @@ namespace web.Controllers
         {
             try
             {
-                // TODO: Add update logic here
-
+                var record = EntityHelper.ToDictionary(collection);
+                Repository.Update(Repository.CreateEntity(record));
                 return RedirectToAction("Index");
             }
-            catch
+            catch(Exception ex)
             {
-                return View();
+                ErrorHelper.Handle(ex, "Failed to create the record");
+                return Redirect("/");
             }
         }
 
@@ -80,6 +81,12 @@ namespace web.Controllers
         public virtual ContentResult ListAll()
         {
             return DoJson(Repository.GetAll());
+        }
+
+        public virtual ContentResult GetEntity(int id)
+        {
+            var item = Repository.GetById(id);
+            return DoJson(item);
         }
 
         public ContentResult DoJson(object data)
