@@ -344,6 +344,12 @@ class listBuilder {
         });
     }
 
+    getSelectedId() {
+        var el = $('#' + this.model.id + ' tbody .table-active');
+        if (utils.isNull(el)) return 0;
+        return el.data('row-key');
+    }
+
     getData(onComplete) {
         $.getJSON('/' + this.model.controllerName + '/ListAll', function (data) {
             onComplete(data)
@@ -352,6 +358,8 @@ class listBuilder {
 
     addButtonEventsFunc() {
         this.addCreateFunc();
+        this.addEditFunc();
+        this.addDeleteFunc();
     }
 
     addCreateFunc() {
@@ -360,4 +368,45 @@ class listBuilder {
             window.location.href = '/' + modelVal.controllerName + '/Create';
         });
     }
+
+    addEditFunc() {
+        var modelVal = this.model;
+        var context = this;
+        $('*[data-luval-action="edit"]').on('click', function () {
+            var id = context.getSelectedId();
+            if (!utils.isNullOrEmpty(id) && id > 0)
+                window.location.href = '/' + modelVal.controllerName + '/Edit/' + id;
+            else
+                alert('Please select a row before clicking on edit');
+        });
+    }
+
+    addDeleteFunc() {
+        var modelVal = this.model;
+        var context = this;
+        $('*[data-luval-action="remove"]').on('click', function () {
+            var id = context.getSelectedId();
+            if (!utils.isNullOrEmpty(id) && id > 0) {
+                var res = confirm("Are you sure you want to delete the selected record?");
+                if (res) {
+                    context.deleteRecord(id, function () {
+                        window.location.href = '/' + modelVal.controllerName
+                    });
+                }
+            }
+            else
+                alert('Please select a row before clicking on delete');
+        });
+    }
+
+    deleteRecord(id, onComplete) {
+        var url = '/' + this.model.controllerName + '/Delete/' + id;
+        $.ajax({
+            method: 'POST',
+            url: url
+        }).done(function (msg) {
+            onComplete(msg);
+        });
+    }
+
 }
