@@ -50,6 +50,32 @@ namespace web.Controllers
             }
         }
 
+        /// <summary>
+        /// Basic view to edit the form
+        /// </summary>
+        /// <param name="id">The id of the entity</param>
+        public ActionResult Edit(int id)
+        {
+            ViewBag.Id = id;
+            return View();
+        }
+
+        // POST: Model/Edit/5
+        [HttpPost]
+        public ActionResult Edit(FormCollection collection)
+        {
+            try
+            {
+                // TODO: Add update logic here
+
+                return RedirectToAction("Index");
+            }
+            catch
+            {
+                return View();
+            }
+        }
+
 
         public virtual ContentResult ListAll()
         {

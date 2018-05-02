@@ -1,0 +1,21 @@
+﻿
+@{
+    ViewBag.Title = "Edit";
+    Layout = "~/Views/Shared/_FormBase.cshtml";
+}
+
+@section formScripts{
+    <script type="text/javascript">
+        $(function () {
+            var builder = new forms(rankModel);
+            builder.render('rank-div', function (data) {
+                //on complete
+            });
+        });
+    </script>
+}
+
+<h2>Ranks</h2>
+<div id="rank-div"></div>
+
+

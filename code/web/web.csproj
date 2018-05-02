@@ -120,6 +120,7 @@
     <Content Include="Views\Sample\Index.cshtml" />
     <Content Include="Views\Sample\Create.cshtml" />
     <Content Include="Views\Rank\Create.cshtml" />
+    <Content Include="Views\Rank\Edit.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

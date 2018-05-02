@@ -1,7 +1,7 @@
 ﻿var rankModel = {
     id: "rank-form",
-    method: "post",
-    action: "/Rank/Create",
+    controllerName: "Rank",
+    isEditMode: false,
     title: "Ranks",
     fields: [
         {

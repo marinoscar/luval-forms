@@ -1,9 +1,9 @@
 ﻿class forms {
     constructor(model) {
         this.model = model;
-        forms.sanitizeModel(this.model, 'action', '/');
-        forms.sanitizeModel(this.model, 'method', 'post');
+        forms.sanitizeModel(this.model, 'controllerName', '');
         forms.sanitizeModel(this.model, 'title');
+        forms.sanitizeModel(this.model, 'description');
     }
 
     static sanitizeModel(model, attribute, defaultValue) {
@@ -41,11 +41,14 @@
                 <%= commands %>
             </form >`
         );
+        var action = '/' + this.model.controllerName + '/Create'
+        if (this.model.isEditMode)
+            action = '/' + this.model.controllerName + '/Edit'
         var result = template(
             {
                 id: this.model.id,
-                method: this.model.method,
-                action: this.model.action,
+                method: 'post',
+                action: action,
                 formFields: formFields,
                 commands: commands
             }
@@ -54,16 +57,22 @@
     }
 
     renderCommands() {
-        forms.sanitizeModel(this.model, 'commands', []);
-        var result = '';
-        for (var i = 0; i < this.model.commands.length; i++) {
-            var command = this.model.commands[i];
-            forms.sanitizeModel(command, 'type', 'submit');
-            forms.sanitizeModel(command, 'classType', 'primary');
-            forms.sanitizeModel(command, 'text', 'Submit');
-            var template = _.template(`<button type="<%= type %>" class="btn btn-<%= classType %>"><%= text %></button>`);
-            result += template(command);
-        }
+        var template = _.template(
+            `
+                <button type="submit" class="btn btn-primary"><%= text %></button>
+            `
+        );
+        return template({ text: "Submit" })
+        //forms.sanitizeModel(this.model, 'commands', []);
+        //var result = '';
+        //for (var i = 0; i < this.model.commands.length; i++) {
+        //    var command = this.model.commands[i];
+        //    forms.sanitizeModel(command, 'type', 'submit');
+        //    forms.sanitizeModel(command, 'classType', 'primary');
+        //    forms.sanitizeModel(command, 'text', 'Submit');
+        //    var template = _.template(`<button type="<%= type %>" class="btn btn-<%= classType %>"><%= text %></button>`);
+        //    result += template(command);
+        //}
         return result;
     }
 
