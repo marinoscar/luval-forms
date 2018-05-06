@@ -7,12 +7,9 @@
 @section formScripts{
     <script type="text/javascript">
         $(function () {
-            //set the model in edit mode
-            rankModel.isEditMode = true;
             var builder = new forms(rankModel);
-            builder.render('rank-div', function (data) {
-                //on complete -> Load Values
-                builder.loadValues( @ViewBag.Id );
+            builder.renderWithData('rank-div', @ViewBag.Id, function (data) {
+                //on complete
             });
         });
     </script>

@@ -36,7 +36,17 @@
             onComplete(el);
     }
 
-    loadValues(id) {
+    renderWithData(elementId, recordId, onComplete) {
+        var context = this;
+        return this.render(elementId, function (renderData) {
+            context.loadValues(recordId, function (recordData) {
+                if (!utils.isNull(onComplete))
+                    onComplete({ render: renderData, record: recordData });
+            });
+        });
+    }
+
+    loadValues(id, onComplete) {
         var url = '/' + this.model.controllerName + '/GetEntity/' + id;
         var context = this;
         $.getJSON(url, function (data) {
@@ -48,6 +58,8 @@
                     value = data[field.name];
                 $('#' + field.fieldId).val(value);
             }
+            if (!utils.isNull(onComplete))
+                onComplete(data);
         });
     }
 
