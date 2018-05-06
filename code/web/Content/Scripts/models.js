@@ -158,3 +158,34 @@ var sectorList = {
     controllerName: "Sector"
 
 };
+
+var pipelineModel = {
+    id: "pipeline-form",
+    controllerName: "Pipeline",
+    title: "Pipeline",
+    fields: [
+        {
+            id: "Id",
+            name: "Id",
+            type: "hidden",
+            value: "0"
+        },
+        {
+            id: "name",
+            name: "Name",
+            label: "Name",
+            type: "text",
+            required: true
+        }
+    ]
+};
+
+var pipelineList = {
+    id: "pipeline-list",
+    columns: [
+        { caption: "Id", name: "Id", visible: "false" },
+        { caption: "Name", name: "Name", visible: "true" }
+    ],
+    controllerName: "Pipeline"
+
+};

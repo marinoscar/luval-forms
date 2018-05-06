@@ -1,0 +1,18 @@
+﻿
+@{
+    Layout = "~/Views/Shared/_FormBase.cshtml";
+}
+
+@section formScripts{
+    <script type="text/javascript">
+        $(function () {
+            var builder = new listBuilder( @ViewBag.ListModelName );
+            builder.render('render-div', function (data) {
+                //on complete
+            });
+        });
+    </script>
+}
+
+<h2>@ViewBag.Title</h2>
+<div id="render-div"></div>

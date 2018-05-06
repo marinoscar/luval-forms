@@ -103,6 +103,7 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Controllers\BaseController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\PipelineController.cs" />
     <Compile Include="Controllers\RankController.cs" />
     <Compile Include="Controllers\ResourceController.cs" />
     <Compile Include="Controllers\SampleController.cs" />
@@ -130,6 +131,7 @@
     <Content Include="Views\Sector\Index.cshtml" />
     <Content Include="Views\Sector\Create.cshtml" />
     <Content Include="Views\Sector\Edit.cshtml" />
+    <Content Include="Views\Pipeline\Index.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

@@ -42,6 +42,7 @@
   <ItemGroup>
     <Compile Include="EntityHelper.cs" />
     <Compile Include="EntityRepository.cs" />
+    <Compile Include="PipelineRepository.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="RankRepository.cs" />
     <Compile Include="RepositoryBase.cs" />
