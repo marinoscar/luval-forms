@@ -21,6 +21,7 @@
             forms.sanitizeModel(this.model.fields[i], 'placeholder');
             forms.sanitizeModel(this.model.fields[i], 'attributes', []);
             forms.sanitizeModel(this.model.fields[i], 'row', 1);
+            forms.sanitizeModel(this.model.fields[i], 'required', false);
         }
     }
 
@@ -152,10 +153,11 @@
     renderInput(fieldId, helpElementTag, field) {
         var template = _.template(
             `
-            <input class="form-control" id="<%= fieldId %>" name="<%= name %>" type="<%= type %>" value="<%= value %>" <% helpElementTag %> placeholder="<%= placeholder %>">
+            <input class="form-control" id="<%= fieldId %>" name="<%= name %>" type="<%= type %>" value="<%= value %>" <% helpElementTag %> placeholder="<%= placeholder %>" <%= isRequired %> >
             <input id="_meta_<%= fieldId %>" name="_<%= name %>" type="hidden" value="<%= type %>">
             `
         );
+        if (field.required) field["isRequired"] = "required";
         field["fieldId"] = fieldId;
         if (!utils.isNull(helpElementTag))
             field["helpElementTag"] = 'aria-describedby="' + fieldId + '-help"';
