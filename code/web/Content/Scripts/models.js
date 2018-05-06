@@ -158,7 +158,6 @@ var sectorList = {
     controllerName: "Sector"
 
 };
-
 var pipelineModel = {
     id: "pipeline-form",
     controllerName: "Pipeline",
@@ -176,10 +175,49 @@ var pipelineModel = {
             label: "Name",
             type: "text",
             required: true
+        },
+        {
+            fields: [
+                {
+                    id: "clientid",
+                    name: "ClientId",
+                    label: "Client",
+                    type: "select",
+                    selectServiceUrl: '/Pipeline/GetAllClient',
+                    required: true
+                },
+                {
+                    id: "subservicelineid",
+                    name: "SubServiceLineId",
+                    label: "Sub Service Line",
+                    type: "select",
+                    selectServiceUrl: '/Pipeline/GetSubServiceLine',
+                    required: true
+                }
+            ]
+        },
+        {
+            fields: [
+                {
+                    id: "offeringid",
+                    name: "OfferingId",
+                    label: "OfferingI",
+                    type: "select",
+                    selectServiceUrl: '/Pipeline/GetAllOffering',
+                    required: true
+                },
+                {
+                    id: "interactioncode",
+                    name: "InteractionCode",
+                    label: "Interaction Code",
+                    type: "text",
+                    selectServiceUrl: '/Pipeline/GetSubServiceLine',
+                    required: false
+                }
+            ]
         }
     ]
 };
-
 var pipelineList = {
     id: "pipeline-list",
     columns: [
