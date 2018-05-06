@@ -1,14 +1,13 @@
 ﻿var rankModel = {
     id: "rank-form",
     controllerName: "Rank",
-    isEditMode: false,
     title: "Ranks",
     fields: [
         {
             id: "Id",
             name: "Id",
             type: "hidden",
-            value: "0",
+            value: "0"
         },
         {
             id: "name",
@@ -16,32 +15,32 @@
             label: "Name",
             type: "text",
             help: "The EY Rank",
-            attributes: [{ "required": "" }],
+            attributes: [{ "required": "" }]
         },
         {
             id: "clientbillrate",
             name: "ClientBillRate",
             label: "Client Bill Rate",
             type: "number",
-            attributes: [{ "required": "" }],
+            attributes: [{ "required": "" }]
         },
         {
             id: "billrate",
             name: "BillRate",
             label: "EY Bill Rate",
             type: "number",
-            attributes: [{ "required": "" }],
+            attributes: [{ "required": "" }]
         },
         {
             id: "costrate",
             name: "CostRate",
             label: "Cost Rate",
             type: "number",
-            attributes: [{ "required": "" }],
-        },
+            attributes: [{ "required": "" }]
+        }
     ],
     commands: [{}]
-}
+};
 
 var rankList = {
     id: "rank-list",
@@ -50,9 +49,9 @@ var rankList = {
         { caption: "Name", name: "Name", visible: "true" },
         { caption: "Client Bill Rate", name: "ClientBillRate", visible: "true" },
         { caption: "Bill Rate", name: "BillRate", visible: "true" },
-        { caption: "Cost Rate", name: "CostRate", visible: "true" },
+        { caption: "Cost Rate", name: "CostRate", visible: "true" }
     ],
     keyColumnName: "Id",
-    controllerName: "Rank",
+    controllerName: "Rank"
 
 };

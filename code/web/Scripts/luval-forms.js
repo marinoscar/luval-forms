@@ -25,8 +25,12 @@
     }
 
     render(elementId, onComplete) {
+        return this.render(elementId, false, onComplete);
+    }
+
+    render(elementId, isEditMode, onComplete) {
         var el = document.getElementById(elementId);
-        var form = this.renderForm();
+        var form = this.renderForm(isEditMode);
         el.innerHTML = form;
         if (!utils.isNull(onComplete))
             onComplete(el);
@@ -47,7 +51,7 @@
         });
     }
 
-    renderForm() {
+    renderForm(isEditMode) {
         var formFields = this.renderFields();
         var commands = this.renderCommands();
         var template = _.template(
@@ -56,9 +60,9 @@
                 <%= commands %>
             </form >`
         );
-        var action = '/' + this.model.controllerName + '/Create'
-        if (this.model.isEditMode)
-            action = '/' + this.model.controllerName + '/Edit'
+        var action = '/' + this.model.controllerName + '/Create';
+        if (isEditMode)
+            action = '/' + this.model.controllerName + '/Edit';
         var result = template(
             {
                 id: this.model.id,
@@ -77,7 +81,7 @@
                 <button type="submit" class="btn btn-primary"><%= text %></button>
             `
         );
-        return template({ text: "Submit" })
+        return template({ text: "Submit" });
     }
 
     renderFields() {
@@ -352,7 +356,7 @@ class listBuilder {
 
     getData(onComplete) {
         $.getJSON('/' + this.model.controllerName + '/ListAll', function (data) {
-            onComplete(data)
+            onComplete(data);
         });
     }
 
@@ -390,7 +394,7 @@ class listBuilder {
                 var res = confirm("Are you sure you want to delete the selected record?");
                 if (res) {
                     context.deleteRecord(id, function () {
-                        window.location.href = '/' + modelVal.controllerName
+                        window.location.href = '/' + modelVal.controllerName;
                     });
                 }
             }
