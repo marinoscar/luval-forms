@@ -89,11 +89,18 @@
 
     renderCommands() {
         var template = _.template(
-            `
-                <button type="submit" class="btn btn-primary"><%= text %></button>
+            `   <div class="form-group">
+                    <button id="<%= submitId %>" data-luval-action="submit" type="submit" class="btn btn-primary">Submit</button>
+                    <button id="<%= cancelId %>" data-luval-action="cancel" type="button" class="btn btn-default" onclick="location.href='<%= url %>'">Cancel</button>
+                </div>
             `
         );
-        return template({ text: "Submit" });
+        return template(
+            {
+                submitId: this.model.id + '-submit',
+                cancelId: this.model.id + '-cancel',
+                url: '/' + this.model.controllerName
+            });
     }
 
     renderFields() {
