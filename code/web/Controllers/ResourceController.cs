@@ -11,6 +11,8 @@ namespace web.Controllers
     {
         public ResourceController() : base(new ResourceRepository())
         {
+            ViewBag.ModelName = "resourceModel";
+            ViewBag.ListModelName = "resourceList";
         }
 
         public ContentResult GetAllRanks()

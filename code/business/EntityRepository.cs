@@ -10,7 +10,7 @@ namespace business
     public class EntityRepository : RepositoryBase
     {
 
-        protected string EntityName { get; private set; }
+        public string EntityName { get; private set; }
 
 
         public EntityRepository(string entityName) : this(entityName, new SqlDataContext())

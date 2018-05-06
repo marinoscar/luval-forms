@@ -1,22 +1,18 @@
-﻿
-@{
-    ViewBag.Title = "Create";
+﻿@{
     Layout = "~/Views/Shared/_FormBase.cshtml";
 }
 
 @section formScripts{
     <script type="text/javascript">
         $(function () {
-            var builder = new forms(resourceModel);
-            builder.render('resource-div', function (data) {
+            var builder = new forms( @ViewBag.ModelName );
+            builder.render('render-div', function (data) {
                 //on complete
             });
         });
     </script>
 }
 
-<h2>Resources</h2>
-<div id="resource-div"></div>
-
-
+<h2>@ViewBag.Title</h2>
+<div id="render-div"></div>
 

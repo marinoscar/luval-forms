@@ -1,11 +1,12 @@
-﻿@{
+﻿
+@{
     Layout = "~/Views/Shared/_FormBase.cshtml";
 }
 
 @section formScripts{
     <script type="text/javascript">
         $(function () {
-            var builder = new forms( @ViewBag.ModelName );
+            var builder = new listBuilder( @ViewBag.ListModelName );
             builder.render('render-div', function (data) {
                 //on complete
             });
@@ -15,4 +16,5 @@
 
 <h2>@ViewBag.Title</h2>
 <div id="render-div"></div>
+
 

@@ -27,6 +27,7 @@ namespace web.Controllers
         /// <returns></returns>
         public virtual ActionResult Index()
         {
+            ViewBag.Title = string.Format("{0} List", Repository.EntityName);
             return View();
         }
 
@@ -36,6 +37,7 @@ namespace web.Controllers
         /// <returns></returns>
         public virtual ActionResult Create()
         {
+            ViewBag.Title = string.Format("Create {0}", Repository.EntityName);
             return View();
         }
 
@@ -66,6 +68,7 @@ namespace web.Controllers
         /// <param name="id">The id of the entity</param>
         public ActionResult Edit(int id)
         {
+            ViewBag.Title = string.Format("Edit {0}", Repository.EntityName);
             ViewBag.Id = id;
             return View();
         }

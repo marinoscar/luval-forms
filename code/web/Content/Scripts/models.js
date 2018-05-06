@@ -41,7 +41,6 @@
     ],
     commands: [{}]
 };
-
 var rankList = {
     id: "rank-list",
     columns: [
@@ -54,7 +53,6 @@ var rankList = {
     controllerName: "Rank"
 
 };
-
 var resourceModel = {
     id: "resource-form",
     controllerName: "Resource",
@@ -108,10 +106,9 @@ var resourceModel = {
             label: "Email",
             type: "email",
             required: true
-        },
+        }
     ]
 };
-
 var resourceList = {
     id: "resource-list",
     columns: [
@@ -122,5 +119,44 @@ var resourceList = {
         { caption: "Email", name: "Email", visible: "true" }
     ],
     controllerName: "Resource"
+
+};
+
+var sectorModel = {
+    id: "sector-form",
+    controllerName: "Sector",
+    title: "Sector",
+    fields: [
+        {
+            id: "Id",
+            name: "Id",
+            type: "hidden",
+            value: "0"
+        },
+        {
+            id: "name",
+            name: "Name",
+            label: "Name",
+            type: "text",
+            required: true
+        },
+        {
+            id: "preferedsector",
+            name: "PreferedSector",
+            label: "Is Prefered Sector",
+            type: "checkbox",
+            required: true
+        }
+    ]
+};
+
+var sectorList = {
+    id: "sector-list",
+    columns: [
+        { caption: "Id", name: "Id", visible: "false" },
+        { caption: "Name", name: "Name", visible: "true" },
+        { caption: "Prefered Sector", name: "PreferedSector", visible: "true" }
+    ],
+    controllerName: "Sector"
 
 };

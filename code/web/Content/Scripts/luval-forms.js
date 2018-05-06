@@ -53,11 +53,15 @@
         $.getJSON(url, function (data) {
             for (var i = 0; i < context.model.fields.length; i++) {
                 var field = context.model.fields[i];
+                var elementId = '#' + field.fieldId;
                 var value = '';
 
                 if (!utils.isNullOrEmpty(data[field.name]))
                     value = data[field.name];
-                $('#' + field.fieldId).val(value);
+                if (!$(elementId).is(':checkbox'))
+                    $(elementId).val(value);
+                else if (value)
+                    $(elementId).prop('checked', true);
             }
             if (!utils.isNull(onComplete))
                 onComplete(data);
@@ -121,6 +125,11 @@
             helpElement = this.renderHelpElement(fieldId, field);
 
         field["fieldId"] = fieldId;
+        field["helpElement"] = helpElement;
+        field["colClass"] = "col-md-12";
+        field["formGroupClass"] = "form-group";
+        field["labelClass"] = "";
+
         switch (field.type) {
             case "hidden":
                 return this.renderHidden(fieldId, field);
@@ -130,22 +139,58 @@
             case "select":
                 field["input"] = this.renderSelect(fieldId, field);
                 break;
+            case "checkbox":
+                field["input"] = this.renderCheck(fieldId, field);
+                field["formGroupClass"] = "form-check";
+                field["labelClass"] = "form-check-label";
+                field["colClass"] = "";
+                break;
             default:
                 field["input"] = this.renderInput(fieldId, helpElement, field);
         }
-        field["helpElement"] = helpElement;
-        field["colClass"] = "col-md-12";
+
+        var labelTemplate = _.template(`<label for="<%= fieldId %>" class="<%= labelClass %>" ><%= label %></label>`);
+        var labelText = labelTemplate(field);
+
+        if (field.type == "checkbox") {
+            field["inputLabel"] = '';
+            field["checkLabel"] = labelText;
+        }
+        else {
+            field["inputLabel"] = labelText;
+            field["checkLabel"] = '';
+        }
+
         var template = _.template(
             `
             <div class="form-row">
-                <div data-row="<%= row %>" class="form-group <%= colClass %>">
-                    <label for="<%= fieldId %>"><%= label %></label>
+                <div data-row="<%= row %>" class="<%= formGroupClass %> <%= colClass %>">
+                    <%= inputLabel %>
                     <%= input %>
                     <%= helpElement %>
+                    <%= checkLabel %>
                 </div>
             </div>
             `
         );
+        var result = template(field);
+        return result;
+    }
+
+    renderCheck(fieldId, field) {
+        if (field.value == 0) field.value = false;
+        if (field.value == 'false') field.value = false;
+        if (field.value == 1) field.value = true;
+        if (field.value == 'true') field.value = true;
+
+        var template = _.template(
+            `
+            <input  data-luval-check="true" class="form-check-input" id="<%= fieldId %>" name="<%= name %>" type="checkbox" value="true" >
+            <input id="_meta_<%= fieldId %>" name="_<%= name %>" type="hidden" value="checkbox">
+            `
+        );
+
+        field["fieldId"] = fieldId;
         var result = template(field);
         return result;
     }

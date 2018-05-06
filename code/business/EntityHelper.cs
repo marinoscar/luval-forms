@@ -35,6 +35,12 @@ namespace business
                     case "datetime-local":
                         dic[keyName] = Convert.ToDateTime(item[keyName]);
                         break;
+                    case "checkbox":
+                        if(!item.AllKeys.Contains(keyName) || item[keyName] == null || string.IsNullOrWhiteSpace(Convert.ToString(item[keyName])))
+                            dic[keyName] = false;
+                        else
+                            dic[keyName] = true;
+                        break;
                     default:
                         dic[keyName] = Convert.ToString(item[keyName]);
                         break;

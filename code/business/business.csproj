@@ -46,6 +46,7 @@
     <Compile Include="RankRepository.cs" />
     <Compile Include="RepositoryBase.cs" />
     <Compile Include="ResourceRepository.cs" />
+    <Compile Include="SectorRepository.cs" />
     <Compile Include="UserResolver.cs" />
   </ItemGroup>
   <ItemGroup>

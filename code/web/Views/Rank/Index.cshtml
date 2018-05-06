@@ -1,20 +1,18 @@
 ﻿
 @{
-    ViewBag.Title = "Rank";
     Layout = "~/Views/Shared/_FormBase.cshtml";
 }
 
 @section formScripts{
     <script type="text/javascript">
         $(function () {
-            var builder = new listBuilder(rankList);
-            builder.render('rank-div', function (data) {
+            var builder = new listBuilder( @ViewBag.ListModelName );
+            builder.render('render-div', function (data) {
                 //on complete
             });
         });
     </script>
 }
 
-<h2>Ranks</h2>
-<div id="rank-div"></div>
-
+<h2>@ViewBag.Title</h2>
+<div id="render-div"></div>

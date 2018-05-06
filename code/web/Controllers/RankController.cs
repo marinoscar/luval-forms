@@ -12,7 +12,8 @@ namespace web.Controllers
 
         public RankController():base(new RankRepository())
         {
-
+            ViewBag.ModelName = "rankModel";
+            ViewBag.ListModelName = "rankList";
         }
     }
 }
