@@ -25,10 +25,10 @@
     }
 
     render(elementId, onComplete) {
-        return this.render(elementId, false, onComplete);
+        return this.renderAs(elementId, false, onComplete);
     }
 
-    render(elementId, isEditMode, onComplete) {
+    renderAs(elementId, isEditMode, onComplete) {
         var el = document.getElementById(elementId);
         var form = this.renderForm(isEditMode);
         el.innerHTML = form;
@@ -38,7 +38,7 @@
 
     renderWithData(elementId, recordId, onComplete) {
         var context = this;
-        return this.render(elementId, function (renderData) {
+        return this.renderAs(elementId, true, function (renderData) {
             context.loadValues(recordId, function (recordData) {
                 if (!utils.isNull(onComplete))
                     onComplete({ render: renderData, record: recordData });
