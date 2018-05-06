@@ -25,6 +25,10 @@
         }
     }
 
+    applyFormatToSelect() {
+        $('select').select2();
+    }
+
     render(elementId, onComplete) {
         return this.renderAs(elementId, false, onComplete);
     }
@@ -33,6 +37,9 @@
         var el = document.getElementById(elementId);
         var form = this.renderForm(isEditMode);
         el.innerHTML = form;
+        //assign events
+        this.applyFormatToSelect();
+
         if (!utils.isNull(onComplete))
             onComplete(el);
     }
@@ -119,6 +126,19 @@
     }
 
     renderField(formId, field) {
+        var res = '';
+        var template = _.template(
+            `<div class="form-row">
+                <%= fields %>
+             </div>
+            `
+        );
+        if (utils.isNullOrEmpty(field.fields))
+            res = this.renderFieldColumn(formId, field);
+        return template({ fields: res });
+    }
+
+    renderFieldColumn(formId, field) {
         var fieldId = formId + "-" + field.id;
         var helpElement = null;
         if (!utils.isNull(field.help))
@@ -163,14 +183,13 @@
 
         var template = _.template(
             `
-            <div class="form-row">
                 <div data-row="<%= row %>" class="<%= formGroupClass %> <%= colClass %>">
                     <%= inputLabel %>
                     <%= input %>
                     <%= helpElement %>
                     <%= checkLabel %>
                 </div>
-            </div>
+            
             `
         );
         var result = template(field);
