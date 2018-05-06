@@ -1,0 +1,20 @@
+﻿
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_FormBase.cshtml";
+}
+
+@section formScripts{
+    <script type="text/javascript">
+        $(function () {
+            var builder = new listBuilder(resourceList);
+            builder.render('resource-div', function (data) {
+                //on complete
+            });
+        });
+    </script>
+}
+
+<h2>Resources</h2>
+<div id="resource-div"></div>
+

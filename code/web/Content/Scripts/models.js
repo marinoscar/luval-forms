@@ -67,10 +67,11 @@ var resourceModel = {
             value: "0"
         },
         {
-            id: "rank",
+            id: "rankid",
             name: "RankId",
             label: "Rank",
             type: "select",
+            selectServiceUrl: '/Resource/GetAllRanks',
             required: true
         },
         {
@@ -111,12 +112,12 @@ var resourceModel = {
     ]
 };
 
-var rankList = {
+var resourceList = {
     id: "resource-list",
     columns: [
         { caption: "Id", name: "Id", visible: "false" },
         { caption: "Name", name: "Name", visible: "true" },
-        { caption: "Last Name", name: "Last Name", visible: "true" },
+        { caption: "Last Name", name: "LastName", visible: "true" },
         { caption: "Rank", name: "RankName", visible: "true" },
         { caption: "Email", name: "Email", visible: "true" }
     ],

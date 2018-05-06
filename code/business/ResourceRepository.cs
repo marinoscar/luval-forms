@@ -21,5 +21,11 @@ namespace business
                 FROM Resource INNER JOIN Rank ON Resource.RankId = Rank.Id";
             return this.Context.Db.ExecuteToDictionaryList(sql);
         }
+
+        public List<Dictionary<string, object>> GetAllRanks()
+        {
+            var sql = @"SELECT Id As value, Name as text FROM Rank";
+            return this.Context.Db.ExecuteToDictionaryList(sql);
+        }
     }
 }

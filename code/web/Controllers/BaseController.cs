@@ -115,7 +115,7 @@ namespace web.Controllers
             return DoJson(item);
         }
 
-        public ContentResult DoJson(object data)
+        protected ContentResult DoJson(object data)
         {
             var json = JsonConvert.SerializeObject(data);
             return Content(json, "application/json");

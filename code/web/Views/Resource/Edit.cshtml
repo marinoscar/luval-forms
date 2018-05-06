@@ -1,0 +1,20 @@
+﻿
+@{
+    ViewBag.Title = "Edit";
+    Layout = "~/Views/Shared/_FormBase.cshtml";
+}
+
+@section formScripts{
+    <script type="text/javascript">
+        $(function () {
+            var builder = new forms(resourceModel);
+            builder.renderWithData('resource-div', @ViewBag.Id, function (data) {
+                //on complete
+            });
+        });
+    </script>
+}
+
+<h2>Edit Resources</h2>
+<div id="resource-div"></div>
+

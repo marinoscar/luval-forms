@@ -12,5 +12,11 @@ namespace web.Controllers
         public ResourceController() : base(new ResourceRepository())
         {
         }
+
+        public ContentResult GetAllRanks()
+        {
+            var ranks = Repository.GetAllRanks();
+            return DoJson(ranks);
+        }
     }
 }

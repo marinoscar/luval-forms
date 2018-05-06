@@ -186,13 +186,32 @@
         forms.sanitizeModel(field, 'items', []);
         var template = _.template(
             `
-            <select class="form-control" id="<%= fieldId %>" name="<%= name %>">
+            <select class="form-control"  data-luval-select="<%= name %>"  id="<%= fieldId %>" name="<%= name %>">
                 <%= options %>
             </select>
+            <input id="_meta_<%= fieldId %>" name="_<%= name %>" type="hidden" value="number">
             `
         );
+        var restItems = null;
+        if (!utils.isNullOrEmpty(field.selectServiceUrl)) {
+            $.ajax({
+                async: false,
+                url: field.selectServiceUrl,
+                success: function (data) {
+                    restItems = data;
+                }
+            });
+            if (!utils.isNullOrEmpty(restItems))
+                field.items = restItems;
+        }
+        var options = this.renderSelectOptions(field, field.items);
+        var result = template({ fieldId: fieldId, name: field.name, options: options });
+        return result;
+    }
+
+    renderSelectOptions(field, items) {
         var options = '';
-        for (var i = 0; i < field.items.length; i++) {
+        for (var i = 0; i < items.length; i++) {
             var item = field.items[i];
             forms.sanitizeModel(item, 'text');
             forms.sanitizeModel(item, 'value');
@@ -201,8 +220,7 @@
                 selected = "selected";
             options += '<option ' + selected + ' value="' + item.value + '">' + item.text + '</option>\n';
         }
-        var result = template({ fieldId: fieldId, name: field.name, options: options });
-        return result;
+        return options;
     }
 
     renderHelpElement(fieldId, field) {
