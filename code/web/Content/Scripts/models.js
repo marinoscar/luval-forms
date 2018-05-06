@@ -18,16 +18,16 @@
             required: true
         },
         {
-            id: "clientbillrate",
-            name: "ClientBillRate",
-            label: "Client Bill Rate",
+            id: "billrate",
+            name: "BillRate",
+            label: "Bill Rate",
             type: "number",
             required: true
         },
         {
-            id: "billrate",
-            name: "BillRate",
-            label: "EY Bill Rate",
+            id: "standardbillrate",
+            name: "StandardBillRate",
+            label: "Standard Bill Rate",
             type: "number",
             required: true
         },
@@ -121,7 +121,6 @@ var resourceList = {
     controllerName: "Resource"
 
 };
-
 var sectorModel = {
     id: "sector-form",
     controllerName: "Sector",
@@ -149,7 +148,6 @@ var sectorModel = {
         }
     ]
 };
-
 var sectorList = {
     id: "sector-list",
     columns: [

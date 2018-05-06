@@ -152,7 +152,7 @@
         var labelTemplate = _.template(`<label for="<%= fieldId %>" class="<%= labelClass %>" ><%= label %></label>`);
         var labelText = labelTemplate(field);
 
-        if (field.type == "checkbox") {
+        if (field.type === "checkbox") {
             field["inputLabel"] = '';
             field["checkLabel"] = labelText;
         }
@@ -178,10 +178,10 @@
     }
 
     renderCheck(fieldId, field) {
-        if (field.value == 0) field.value = false;
-        if (field.value == 'false') field.value = false;
-        if (field.value == 1) field.value = true;
-        if (field.value == 'true') field.value = true;
+        if (field.value === 0) field.value = false;
+        if (field.value === 'false') field.value = false;
+        if (field.value === 1) field.value = true;
+        if (field.value === 'true') field.value = true;
 
         var template = _.template(
             `
