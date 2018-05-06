@@ -22,6 +22,15 @@ namespace web.Controllers
         }
 
         /// <summary>
+        /// Action to render the list
+        /// </summary>
+        /// <returns></returns>
+        public virtual ActionResult Index()
+        {
+            return View();
+        }
+
+        /// <summary>
         /// Basic view to show the form
         /// </summary>
         /// <returns></returns>

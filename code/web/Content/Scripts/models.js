@@ -51,7 +51,75 @@ var rankList = {
         { caption: "Standard Bill Rate", name: "StandardBillRate", visible: "true" },
         { caption: "Cost Rate", name: "CostRate", visible: "true" }
     ],
-    keyColumnName: "Id",
     controllerName: "Rank"
+
+};
+
+var resourceModel = {
+    id: "resource-form",
+    controllerName: "Resource",
+    title: "Resources",
+    fields: [
+        {
+            id: "Id",
+            name: "Id",
+            type: "hidden",
+            value: "0"
+        },
+        {
+            id: "rank",
+            name: "RankId",
+            label: "Rank",
+            type: "select",
+            required: true
+        },
+        {
+            id: "name",
+            name: "Name",
+            label: "Name",
+            type: "text",
+            required: true
+        },
+        {
+            id: "lastname",
+            name: "LastName",
+            label: "Last Name",
+            type: "text",
+            required: true
+        },
+        {
+            id: "startdate",
+            name: "StartDate",
+            label: "Start Date",
+            type: "date",
+            required: true
+        },
+        {
+            id: "gpn",
+            name: "GPN",
+            label: "GPN",
+            type: "text",
+            required: true
+        },
+        {
+            id: "email",
+            name: "Email",
+            label: "Email",
+            type: "email",
+            required: true
+        },
+    ]
+};
+
+var rankList = {
+    id: "resource-list",
+    columns: [
+        { caption: "Id", name: "Id", visible: "false" },
+        { caption: "Name", name: "Name", visible: "true" },
+        { caption: "Last Name", name: "Last Name", visible: "true" },
+        { caption: "Rank", name: "RankName", visible: "true" },
+        { caption: "Email", name: "Email", visible: "true" }
+    ],
+    controllerName: "Resource"
 
 };

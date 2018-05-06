@@ -7,12 +7,10 @@ using System.Web.Mvc;
 
 namespace web.Controllers
 {
-    public class RankController : BaseController<RankRepository>
+    public class ResourceController : BaseController<ResourceRepository>
     {
-
-        public RankController():base(new RankRepository())
+        public ResourceController() : base(new ResourceRepository())
         {
-
         }
     }
 }
