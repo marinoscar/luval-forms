@@ -191,7 +191,7 @@ var pipelineModel = {
                     name: "SubServiceLineId",
                     label: "Sub Service Line",
                     type: "select",
-                    selectServiceUrl: '/Pipeline/GetSubServiceLine',
+                    selectServiceUrl: '/Pipeline/GetAllSubServiceLine',
                     required: true
                 }
             ]

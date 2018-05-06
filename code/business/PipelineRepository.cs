@@ -33,5 +33,11 @@ ORDER BY Pipe.UtcUpdatedOn DESC
 ";
             return Context.Db.ExecuteToDictionaryList(sql);
         }
+
+        public List<Dictionary<string, object>> GetAsKeyValue(string entity)
+        {
+            var sql = string.Format("SELECT Id as value, Name as text FROM {0}", entity);
+            return Context.Db.ExecuteToDictionaryList(sql);
+        }
     }
 }

@@ -132,6 +132,8 @@
     <Content Include="Views\Sector\Create.cshtml" />
     <Content Include="Views\Sector\Edit.cshtml" />
     <Content Include="Views\Pipeline\Index.cshtml" />
+    <Content Include="Views\Pipeline\Create.cshtml" />
+    <Content Include="Views\Pipeline\Edit.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

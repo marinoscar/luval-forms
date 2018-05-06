@@ -20,5 +20,26 @@ namespace web.Controllers
             var data = Repository.GetList();
             return DoJson(data);
         }
+
+        public ContentResult GetAllClient()
+        {
+            return GetSelectValues("Client");
+        }
+
+        public ContentResult GetAllSubServiceLine()
+        {
+            return GetSelectValues("SubServiceLine");
+        }
+
+        public ContentResult GetAllOffering()
+        {
+            return GetSelectValues("Offering");
+        }
+
+        public ContentResult GetSelectValues(string entityName)
+        {
+            var vals = Repository.GetAsKeyValue(entityName);
+            return DoJson(vals);
+        }
     }
 }

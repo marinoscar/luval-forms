@@ -15,13 +15,17 @@
     }
 
     sanitizeFields() {
-        for (var i = 0, len = this.model.fields.length; i < len; i++) {
-            forms.sanitizeModel(this.model.fields[i], 'help');
-            forms.sanitizeModel(this.model.fields[i], 'value');
-            forms.sanitizeModel(this.model.fields[i], 'placeholder');
-            forms.sanitizeModel(this.model.fields[i], 'attributes', []);
-            forms.sanitizeModel(this.model.fields[i], 'row', 1);
-            forms.sanitizeModel(this.model.fields[i], 'required', false);
+        this.sanitizeFieldsFromArray(this.model.fields);
+    }
+
+    sanitizeFieldsFromArray(fields) {
+        for (var i = 0, len = fields.length; i < len; i++) {
+            forms.sanitizeModel(fields[i], 'help');
+            forms.sanitizeModel(fields[i], 'value');
+            forms.sanitizeModel(fields[i], 'placeholder');
+            forms.sanitizeModel(fields[i], 'attributes', []);
+            forms.sanitizeModel(fields[i], 'required', false);
+            forms.sanitizeModel(fields[i], 'isRequired', '');
         }
     }
 
@@ -134,19 +138,29 @@
             `
         );
         if (utils.isNullOrEmpty(field.fields))
-            res = this.renderFieldColumn(formId, field);
+            res = this.renderFieldColumn(formId, field, "col-md-12");
+        else {
+            this.sanitizeFieldsFromArray(field.fields);
+            var colIndex = 12;
+            if (field.fields.length <= 4)
+                colIndex = (12 / field.fields.length); 
+            for (var i = 0; i < field.fields.length; i++) {
+                res += this.renderFieldColumn(formId, field.fields[i], 'col-sm-12 col-md-' + colIndex);
+            }
+        }
         return template({ fields: res });
     }
 
-    renderFieldColumn(formId, field) {
+    renderFieldColumn(formId, field, columnClass) {
         var fieldId = formId + "-" + field.id;
         var helpElement = null;
         if (!utils.isNull(field.help))
             helpElement = this.renderHelpElement(fieldId, field);
 
+        if (field.required) field["isRequired"] = "required";
         field["fieldId"] = fieldId;
         field["helpElement"] = helpElement;
-        field["colClass"] = "col-md-12";
+        field["colClass"] = columnClass;
         field["formGroupClass"] = "form-group";
         field["labelClass"] = "";
 
@@ -182,14 +196,12 @@
         }
 
         var template = _.template(
-            `
-                <div data-row="<%= row %>" class="<%= formGroupClass %> <%= colClass %>">
-                    <%= inputLabel %>
-                    <%= input %>
-                    <%= helpElement %>
-                    <%= checkLabel %>
-                </div>
-            
+            `<div class="<%= formGroupClass %> <%= colClass %>">
+                <%= inputLabel %>
+                <%= input %>
+                <%= helpElement %>
+                <%= checkLabel %>
+              </div>
             `
         );
         var result = template(field);
@@ -221,7 +233,6 @@
             <input id="_meta_<%= fieldId %>" name="_<%= name %>" type="hidden" value="<%= type %>">
             `
         );
-        if (field.required) field["isRequired"] = "required";
         field["fieldId"] = fieldId;
         if (!utils.isNull(helpElementTag))
             field["helpElementTag"] = 'aria-describedby="' + fieldId + '-help"';
