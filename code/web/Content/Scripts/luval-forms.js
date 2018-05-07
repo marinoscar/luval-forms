@@ -30,7 +30,9 @@
     }
 
     applyFormatToSelect() {
-        $('select').select2();
+        $('select').select2({
+            theme: "bootstrap4"
+        });
     }
 
     render(elementId, onComplete) {
@@ -143,7 +145,7 @@
             this.sanitizeFieldsFromArray(field.fields);
             var colIndex = 12;
             if (field.fields.length <= 4)
-                colIndex = (12 / field.fields.length); 
+                colIndex = 12 / field.fields.length;
             for (var i = 0; i < field.fields.length; i++) {
                 res += this.renderFieldColumn(formId, field.fields[i], 'col-sm-12 col-md-' + colIndex);
             }

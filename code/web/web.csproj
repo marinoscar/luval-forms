@@ -92,6 +92,8 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\Styles\luval-forms.css" />
+    <Content Include="Content\Styles\select2-bootstrap4.css" />
+    <Content Include="Content\Styles\select2-bootstrap4.min.css" />
     <Content Include="Global.asax" />
     <Content Include="Content\Scripts\luval-forms.js" />
     <Content Include="Content\Scripts\models.js" />
