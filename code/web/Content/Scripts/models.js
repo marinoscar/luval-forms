@@ -18,6 +18,21 @@
             required: true
         },
         {
+            id: "standardrank",
+            name: "StandardRank",
+            label: "Standard Rank",
+            type: "select",
+            items: [
+                { text: 'Staff', value: 'Staff' },
+                { text: 'Senior', value: 'Senior' },
+                { text: 'Manager', value: 'Manager' },
+                { text: 'Senior Manager', value: 'Senior Manager' },
+                { text: 'Executive Director', value: 'Executive Director' },
+                { text: 'Partner', value: 'Partner' },
+            ],
+            required: true
+        },
+        {
             id: "billrate",
             name: "BillRate",
             label: "Bill Rate",
@@ -46,6 +61,7 @@ var rankList = {
     columns: [
         { caption: "Id", name: "Id", visible: "false" },
         { caption: "Name", name: "Name", visible: "true" },
+        { caption: "Standard Rank", name: "StandardRank", visible: "true" },
         { caption: "Bill Rate", name: "BillRate", visible: "true" },
         { caption: "Standard Bill Rate", name: "StandardBillRate", visible: "true" },
         { caption: "Cost Rate", name: "CostRate", visible: "true" }
