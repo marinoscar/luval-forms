@@ -31,6 +31,11 @@ namespace web.Controllers
             return GetSelectValues("SubServiceLine");
         }
 
+        public ContentResult GetAllResource()
+        {
+            return GetSelectValues("Resource");
+        }
+
         public ContentResult GetAllOffering()
         {
             return GetSelectValues("Offering");

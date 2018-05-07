@@ -193,18 +193,34 @@ var pipelineModel = {
                     type: "select",
                     selectServiceUrl: '/Pipeline/GetAllSubServiceLine',
                     required: true
+                },
+                {
+                    id: "offeringid",
+                    name: "OfferingId",
+                    label: "Offering",
+                    type: "select",
+                    selectServiceUrl: '/Pipeline/GetAllOffering',
+                    required: true
                 }
             ]
         },
         {
             fields: [
                 {
-                    id: "offeringid",
-                    name: "OfferingId",
-                    label: "OfferingI",
+                    id: "pursueleaderid",
+                    name: "PursueLeaderId",
+                    label: "Pursue Leader",
                     type: "select",
-                    selectServiceUrl: '/Pipeline/GetAllOffering',
-                    required: true
+                    selectServiceUrl: '/Pipeline/GetAllResource',
+                    required: false
+                },
+                {
+                    id: "managerid",
+                    name: "ManagerId",
+                    label: "Manager",
+                    type: "select",
+                    selectServiceUrl: '/Pipeline/GetAllResource',
+                    required: false
                 },
                 {
                     id: "interactioncode",
@@ -215,7 +231,107 @@ var pipelineModel = {
                     required: false
                 }
             ]
-        }
+        },
+        {
+            fields: [
+                {
+                    id: "useleader",
+                    name: "USLeader",
+                    label: "Project Leader",
+                    type: "text",
+                    help: "Name of the project leader in the account",
+                    required: false
+                },
+                {
+                    id: "usmanager",
+                    name: "USManager",
+                    label: "Project Manager",
+                    type: "text",
+                    help: "Name of the manager in the account",
+                    required: false
+                },
+                {
+                    id: "referredby",
+                    name: "ReferredBy",
+                    label: "Referred By",
+                    type: "text",
+                    help: "Person who referred the work",
+                    required: false
+                }
+            ]
+        },
+        {
+            fields: [
+                {
+                    id: "winprobability",
+                    name: "WinProbability",
+                    label: "Win Probability (%)",
+                    type: "number",
+                    help: "% of probability to win the work",
+                    required: false
+                },
+                {
+                    id: "status",
+                    name: "Status",
+                    label: "Status",
+                    type: "select",
+                    help: "Status of the opportunity",
+                    items: [
+                        { value: 0, text: "None" },
+                        { value: 1, text: "Identify" },
+                        { value: 2, text: "Pursue" },
+                        { value: 3, text: "Closing" },
+                        { value: 4, text: "Won" },
+                        { value: 5, text: "Lost" },
+                        { value: 6, text: "On Hold" },
+                        { value: 7, text: "Canceled" }
+                    ],
+                    required: false
+                },
+                {
+                    id: "priority",
+                    name: "Priority",
+                    label: "Priority",
+                    type: "select",
+                    items: [
+                        { value: 0, text: "None" },
+                        { value: 1, text: "Low" },
+                        { value: 2, text: "Mid" },
+                        { value: 3, text: "High" }
+                    ],
+                    help: "The priority for the opportunity",
+                    required: false
+                }
+            ]
+        },
+        {
+            fields: [
+                {
+                    id: "ApprovalDate",
+                    name: "ApprovalDate",
+                    label: "Approval Date",
+                    type: "date",
+                    help: "Potential decision date",
+                    required: false
+                },
+                {
+                    id: "StartDate",
+                    name: "StartDate",
+                    label: "Start Date",
+                    type: "date",
+                    help: "Potential start date",
+                    required: false
+                },
+                {
+                    id: "FinishDate",
+                    name: "FinishDate",
+                    label: "Finish Date",
+                    type: "date",
+                    help: "Potential end date",
+                    required: false
+                }
+            ]
+        },
     ]
 };
 var pipelineList = {
