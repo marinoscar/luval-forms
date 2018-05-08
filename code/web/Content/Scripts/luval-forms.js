@@ -107,7 +107,7 @@
 
     renderCommands() {
         var template = _.template(
-            `   <div class="form-group">
+            `   <div id="<%= id %>-commands" class="form-group">
                     <button id="<%= submitId %>" data-luval-action="submit" type="submit" class="btn btn-primary">Submit</button>
                     <button id="<%= cancelId %>" data-luval-action="cancel" type="button" class="btn btn-default" onclick="location.href='<%= url %>'">Cancel</button>
                 </div>
@@ -115,6 +115,7 @@
         );
         return template(
             {
+                id: this.model.id,
                 submitId: this.model.id + '-submit',
                 cancelId: this.model.id + '-cancel',
                 url: '/' + this.model.controllerName
@@ -259,7 +260,7 @@
         return template({ id: fieldId, value: field.value, name: field.name });
     }
 
-    renderSelect(fieldId, field) {
+        renderSelect(fieldId, field) {
         forms.sanitizeModel(field, 'items', []);
         var template = _.template(
             `
@@ -317,7 +318,6 @@ class tables {
         this.model = model;
         this.list = list;
         forms.sanitizeModel(this.model, "keyColumnName", "Id");
-        //forms.sanitizeModel(this.model, "commands", []);
         forms.sanitizeModel(this.model, "columns", []);
         forms.sanitizeModel(this.model, "id", "table-0001");
         forms.sanitizeModel(this.model, "controllerName");
@@ -529,4 +529,44 @@ class listBuilder {
         });
     }
 
+}
+
+class modal {
+    constructor(model) {
+        this.model = model;
+        forms.sanitizeModel(this.model, 'id', 'modal-dialog');
+        forms.sanitizeModel(this.model, 'title', 'Dialog Title');
+        forms.sanitizeModel(this.model, 'body', '<p>Dialog Body Goes Here</p>');
+        forms.sanitizeModel(this.model, 'acceptText', 'Ok');
+        forms.sanitizeModel(this.model, 'cancelText', 'Cancel');
+    }
+
+    renderModal(elementId) {
+        var template = _.template(
+`
+<div id="<%= id %>" class="modal" tabindex="-1" role="dialog">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title"><%= title %></h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <%= body %>
+      </div>
+      <div class="modal-footer">
+        <button id="<%= id %>-accept-btn" type="button" class="btn btn-primary"><%= acceptText %></button>
+        <button id="<%= id %>-cancel-btn"type="button" class="btn btn-secondary" data-dismiss="modal"><%= cancelText %></button>
+      </div>
+    </div>
+  </div>
+</div>
+`
+        );
+
+        var el = document.getElementById(elementId);
+        el.innerHTML = template(this.model);
+    }
 }

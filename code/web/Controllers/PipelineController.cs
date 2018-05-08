@@ -41,6 +41,11 @@ namespace web.Controllers
             return GetSelectValues("Offering");
         }
 
+        public ContentResult GetAllRanks()
+        {
+            return GetSelectValues("Rank");
+        }
+
         public ContentResult GetSelectValues(string entityName)
         {
             var vals = Repository.GetAsKeyValue(entityName);

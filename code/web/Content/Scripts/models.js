@@ -28,7 +28,7 @@
                 { text: 'Manager', value: 'Manager' },
                 { text: 'Senior Manager', value: 'Senior Manager' },
                 { text: 'Executive Director', value: 'Executive Director' },
-                { text: 'Partner', value: 'Partner' },
+                { text: 'Partner', value: 'Partner' }
             ],
             required: true
         },
@@ -347,7 +347,7 @@ var pipelineModel = {
                     required: false
                 }
             ]
-        },
+        }
     ]
 };
 var pipelineList = {
@@ -358,4 +358,32 @@ var pipelineList = {
     ],
     controllerName: "Pipeline"
 
+};
+
+var pipeResourceList = {
+    id: "piperesource-table",
+    columns: [
+        { id: "id", name: "Id", caption: "Id", visible: false },
+        { id: "pipelineid", name: "PipelineId", caption: "PipelineId", visible: false },
+        { id: "rankid", name: "RankId", caption: "RankId", visible: false },
+        { id: "rankName", name: "RankName", caption: "Rank", visible: true },
+        { id: "hourlyrate", name: "HourlyRate", caption: "Hourly Rate", visible: true },
+        { id: "hours", name: "Hours", caption: "Hours", visible: true },
+    ]
+}
+
+var pipeResourceModalModel = {
+    id: "pipeline-resource-model-form",
+    title: "Pipeline Resource",
+    fields: [
+        { id: "id", name: "Id", type: "hidden", label: "id" },
+        { id: "pipelineid", name: "PipelineId", type: "hidden", label: "pipe" },
+        { id: "rankid", name: "RankId", type: "select", label: "Rank", selectServiceUrl: '/Pipeline/GetAllRanks', required: true },
+        {
+            fields: [
+                { id: "hourlyrate", name: "HourlyRate", type: "number", label: "Bill Rate" },
+                { id: "hours", name: "Hours", type: "number", label: "Hours" }
+            ]
+        }
+    ]
 };
