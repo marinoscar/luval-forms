@@ -1,8 +1,9 @@
 ﻿class projectHelper {
-    constructor(formModel, resourceList, modalModel) {
+    constructor(formModel, resourceList, modalModel, onModalAccept) {
         this.formModel = formModel;
         this.resourceList = resourceList;
         this.modalModel = modalModel;
+        this.onModalAccept = onModalAccept;
     }
 
     render() {
@@ -21,6 +22,7 @@
                 //on table complete
                 var modalForm = new forms(context.modalModel);
                 var modalHelper = new modal({
+                    id: context.modalModel.id,
                     title: "Resource",
                     body: modalForm.renderFields()
                 });
@@ -30,9 +32,42 @@
         });
     }
 
+    extractModalData() {
+        var obj = {};
+        var inputs = $('#' + this.modalModel.id).find('input');
+        for (var i = 0; i < inputs.length; i++) {
+            var input = inputs[i];
+            obj[$(input).prop('name')] = $(input).val();
+        }
+        var selects = $('#' + this.modalModel.id).find('select');
+        for (var i = 0; i < selects.length; i++) {
+            var select = selects[i];
+            obj[$(select).prop('name')] = $(select).val();
+            obj[$(select).prop('name') + '_text'] = $(select).find('option:selected').text();
+        }
+        return obj;
+    }
+
     buttonEvent() {
+        var context = this;
         $('#resource-add').on('click', function () {
-            $('.modal').modal('show');
+            $('#' + context.modalModel.id).modal('show');
+        });
+        $('#' + context.modalModel.id + '-accept-btn').on('click', function () {
+            $('#' + context.modalModel.id).modal('hide');
+            if (!utils.isNull(context.onModalAccept))
+                context.onModalAccept(context);
         });
     }
+}
+
+class pipelineHelper {
+    constructor() {
+
+    }
+
+    onModalAccept(project) {
+        var data = project.extractModalData();
+    }
+
 }

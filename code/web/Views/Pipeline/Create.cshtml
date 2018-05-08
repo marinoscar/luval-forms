@@ -6,7 +6,8 @@
     <script src="/Content/Scripts/pipeline.js"></script>
     <script type="text/javascript">
         $(function () {
-            var helper = new projectHelper(pipelineModel, pipeResourceList, pipeResourceModalModel);
+            var pipeHelper = new pipelineHelper();
+            var helper = new projectHelper(pipelineModel, pipeResourceList, pipeResourceModalModel, pipeHelper.onModalAccept);
             helper.render();
         });
     </script>
@@ -21,6 +22,7 @@
 <hr />
 <div class="row">
     <div class="col-sm-12">
+        <h3>Resource Mix</h3>
         <div class="btn-group" role="group">
             <button id="resource-add" type="button" class="btn btn-success"><i class="fas fa-plus"></i></button>
             <button id="resource-edit" type="button" class="btn btn-secondary"><i class="fas fa-edit"></i></button>
