@@ -65,6 +65,12 @@ class pipelineHelper {
     constructor() {
     }
 
+    renderSummary(elementId) {
+        var element = document.getElementById(elementId);
+        var builder = new forms(pipeSummary);
+        element.innerHTML = builder.renderFields();
+    }
+
     onModalAccept(project) {
         var rowid = 1;
         var data = project.extractModalData();

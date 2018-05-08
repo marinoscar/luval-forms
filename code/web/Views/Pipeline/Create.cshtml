@@ -9,6 +9,7 @@
             var pipeHelper = new pipelineHelper();
             var helper = new projectHelper(pipelineModel, pipeResourceList, pipeResourceModalModel, pipeHelper.onModalAccept);
             helper.render();
+            pipeHelper.renderSummary('pipe-summary-div');
         });
     </script>
 }
@@ -32,5 +33,13 @@
         </div>
     </div>
     <div id="form-modal"></div>
+</div>
+<hr />
+
+<div class="row">
+    <div class="col-sm-12">
+        <h3>Summary</h3>
+        <div id="pipe-summary-div"></div>
+    </div>
 </div>
 
