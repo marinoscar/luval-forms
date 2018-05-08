@@ -17,7 +17,7 @@
 
             listHelper.render('resource-div', function (data) {
                 $('.table').DataTable({
-                    searching: false, lengthChange:false
+                    searching: false, lengthChange: false
                 });
                 //on table complete
                 var modalForm = new forms(context.modalModel);
@@ -66,13 +66,17 @@ class pipelineHelper {
     }
 
     onModalAccept(project) {
+        var rowid = 1;
         var data = project.extractModalData();
         var table = $('.table').DataTable();
         if (utils.isNull(this.resources))
             this.resources = [];
-        this.resources.push({
-            rowid: 1, Id: data['Id'], RankId: data['RankId'], PipelineId: data['PipelineId'], HourlyRate: data['HourlyRate'], hours: data['Hours']
-        });
+        var max = _.max(this.resources, function (item) { if (!utils.isNull(item)) return item.__RowId; });
+        if (max === -Infinity) rowid = 1;
+        else rowid += max.__RowId;
+            this.resources.push({
+                __RowId: rowid, Id: data['Id'], RankId: data['RankId'], PipelineId: data['PipelineId'], HourlyRate: data['HourlyRate'], hours: data['Hours']
+            });
         table.row.add([
             data['RankId_text'],
             data['HourlyRate'], data['Hours']
