@@ -363,12 +363,9 @@ var pipelineList = {
 var pipeResourceList = {
     id: "piperesource-table",
     columns: [
-        { id: "id", name: "Id", caption: "Id", visible: false },
-        { id: "pipelineid", name: "PipelineId", caption: "PipelineId", visible: false },
-        { id: "rankid", name: "RankId", caption: "RankId", visible: false },
-        { id: "rankName", name: "RankName", caption: "Rank", visible: true },
-        { id: "hourlyrate", name: "HourlyRate", caption: "Hourly Rate", visible: true },
-        { id: "hours", name: "Hours", caption: "Hours", visible: true },
+        { id: "rankName", name: "RankName", caption: "Rank", visible: "true" },
+        { id: "hourlyrate", name: "HourlyRate", caption: "Hourly Rate", visible: "true" },
+        { id: "hours", name: "Hours", caption: "Hours", visible: "true" },
     ]
 }
 

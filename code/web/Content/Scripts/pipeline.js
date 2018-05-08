@@ -63,11 +63,20 @@
 
 class pipelineHelper {
     constructor() {
-
     }
 
     onModalAccept(project) {
         var data = project.extractModalData();
+        var table = $('.table').DataTable();
+        if (utils.isNull(this.resources))
+            this.resources = [];
+        this.resources.push({
+            rowid: 1, Id: data['Id'], RankId: data['RankId'], PipelineId: data['PipelineId'], HourlyRate: data['HourlyRate'], hours: data['Hours']
+        });
+        table.row.add([
+            data['RankId_text'],
+            data['HourlyRate'], data['Hours']
+        ]).draw(false);
     }
 
 }
