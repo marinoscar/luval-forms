@@ -18,7 +18,27 @@ namespace data
             ConnectionProvider = connectionProvider;
         }
 
+        public object WithTransaction(Func<Database, object> doSomething)
+        {
+            object result = null;
+            try
+            {
+                ConnectionProvider.OpenConnection();
+                ConnectionProvider.BeginTransaction();
+                result = doSomething(this);
+                ConnectionProvider.Commit();
+            }
+            catch (Exception ex)
+            {
+                throw new InvalidOperationException("Unable to execute transaction", ex);
+            }
+            finally
+            {
+                ConnectionProvider.CloseConnection();
+            }
+            return result;
 
+        }
 
         public object WithConnection(Func<IDbConnection, object> doSomething)
         {

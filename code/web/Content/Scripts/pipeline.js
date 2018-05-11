@@ -9,7 +9,9 @@
     render() {
         var locFormModel = this.formModel;
         var builder = new forms(this.formModel);
-        var listHelper = new tables(this.resourceList, []);
+        var listHelper = new listBuilder(this.resourceList, {
+            hideCommands: true, getData: false, data: []
+        });
         var context = this;
         builder.render('render-div', function (data) {
             //on complete
@@ -34,18 +36,18 @@
 
     extractModalData() {
         var obj = {};
-        var inputs = $('#' + this.modalModel.id).find('input');
+        var inputs = $('#' + this.modalModel.id).find('input, textarea, select');
         for (var i = 0; i < inputs.length; i++) {
             var input = inputs[i];
             obj[$(input).prop('name')] = $(input).val();
-        }
-        var selects = $('#' + this.modalModel.id).find('select');
-        for (var i = 0; i < selects.length; i++) {
-            var select = selects[i];
-            obj[$(select).prop('name')] = $(select).val();
-            obj[$(select).prop('name') + '_text'] = $(select).find('option:selected').text();
+            if ($(input).is('select'))
+                obj[$(input).prop('name') + '_text'] = $(input).find('option:selected').text();
         }
         return obj;
+    }
+
+    cleanModal() {
+        $('#' + this.modalModel.id).find('input, textarea, select').val('');
     }
 
     buttonEvent() {
@@ -56,7 +58,11 @@
         $('#' + context.modalModel.id + '-accept-btn').on('click', function () {
             $('#' + context.modalModel.id).modal('hide');
             if (!utils.isNull(context.onModalAccept))
-                context.onModalAccept(context);
+                context.onModalAccept(context, function () {
+                    context.cleanModal();
+                });
+            else
+                context.cleanModal();
         });
     }
 }
@@ -71,7 +77,7 @@ class pipelineHelper {
         element.innerHTML = builder.renderFields();
     }
 
-    onModalAccept(project) {
+    onModalAccept(project, onComplete) {
         var rowid = 1;
         var data = project.extractModalData();
         var table = $('.table').DataTable();
@@ -80,13 +86,37 @@ class pipelineHelper {
         var max = _.max(this.resources, function (item) { if (!utils.isNull(item)) return item.__RowId; });
         if (max === -Infinity) rowid = 1;
         else rowid += max.__RowId;
-            this.resources.push({
-                __RowId: rowid, Id: data['Id'], RankId: data['RankId'], PipelineId: data['PipelineId'], HourlyRate: data['HourlyRate'], hours: data['Hours']
-            });
+        this.resources.push({
+            __RowId: rowid, Id: data['Id'], RankId: data['RankId'], PipelineId: data['PipelineId'], HourlyRate: data['HourlyRate'], hours: data['Hours']
+        });
         table.row.add([
             data['RankId_text'],
             data['HourlyRate'], data['Hours']
         ]).draw(false);
+        if (!utils.isNull(onComplete))
+            onComplete();
+    }
+
+    initialize(onComplete) {
+        var context = this;
+        this.loadAllRanks(onComplete);
+        $('#pipeline-resource-model-form-rankid').on('change', function (e) {
+            var val = this.value;
+            var item = _.find(context.ranks, function (i) {
+                i.Id == Number(val);
+            });
+            if (utils.isNullOrEmpty(item)) return;
+            $('#pipeline-resource-model-form-hourlyrate').val(item.BillRate);
+        });
+    }
+
+    loadAllRanks(onComplete) {
+        var context = this;
+        $.getJSON('/Pipeline/GetAllRanks', function (data) {
+            context.ranks = data;
+            if (!utils.isNull(onComplete))
+                onComplete(data);
+        });
     }
 
 }

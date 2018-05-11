@@ -260,7 +260,7 @@
         return template({ id: fieldId, value: field.value, name: field.name });
     }
 
-        renderSelect(fieldId, field) {
+    renderSelect(fieldId, field) {
         forms.sanitizeModel(field, 'items', []);
         var template = _.template(
             `
@@ -404,12 +404,31 @@ class tables {
 }
 
 class listBuilder {
-    constructor(model) {
+    constructor(model, options) {
         this.model = model;
+        if (utils.isNullOrEmpty(options)) this.options = {};
+        else this.options = options;
+
+        forms.sanitizeModel(this.options, 'hideCommands', false);
+        forms.sanitizeModel(this.options, 'getData', true);
+        forms.sanitizeModel(this.options, 'data', []);
     }
 
     render(elementId, onComplete) {
         var el = document.getElementById(elementId);
+        var localModel = this.model;
+        var context = this;
+
+        if (this.options.getData) {
+            this.getData(function (data) {
+                context.configureTable(el, data, context, onComplete);
+            });
+        }
+        else
+            context.configureTable(el, options.data, context, onComplete);
+    }
+
+    configureTable(element, data, context, onComplete) {
         var template = _.template(
             `
             <div class="row">
@@ -417,7 +436,7 @@ class listBuilder {
                     <%= table %>
                 </div>
             </div>
-            <div class="row">
+            <div id="<%= commandId %>" class="row" data-luval-table-commands="<%= commandId %>">
                 <div class="col-md-12">
                     <div class="btn-group" role="group" aria-label="Toolbar">
                       <button data-luval-action="create" type="button" class="btn btn-success" style="width: 100px;"><i class="fas fa-plus" style="padding-right: 10px;"></i>Add</button>
@@ -428,20 +447,18 @@ class listBuilder {
             </div>
             `
         );
+        var commandId = context.model.id + '-commands';
+        var table = new tables(context.model, data).renderTable();
+        element.innerHTML = template({ table: table, commandId: commandId });
+        $('#' + context.model.id).DataTable();
+        if (context.options.hideCommands)
+            $('#' + commandId).hide();
 
-        var localModel = this.model;
-        var context = this;
-        this.getData(function (data) {
-            var table = new tables(localModel, data).renderTable();
-            el.innerHTML = template({ table: table });
-            $('#' + localModel.id).DataTable();
-
-            //attach other events
-            context.attachEvents();
-            if (!utils.isNull(onComplete)) {
-                onComplete(el);
-            }
-        });
+        //attach other events
+        context.attachEvents();
+        if (!utils.isNull(onComplete)) {
+            onComplete(element);
+        }
     }
 
     attachEvents() {
@@ -543,7 +560,7 @@ class modal {
 
     renderModal(elementId) {
         var template = _.template(
-`
+            `
 <div id="<%= id %>" class="modal" tabindex="-1" role="dialog">
   <div class="modal-dialog" role="document">
     <div class="modal-content">

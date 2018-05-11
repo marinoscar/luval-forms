@@ -374,7 +374,7 @@ var pipeResourceModalModel = {
     fields: [
         { id: "id", name: "Id", type: "hidden", label: "id" },
         { id: "pipelineid", name: "PipelineId", type: "hidden", label: "pipe" },
-        { id: "rankid", name: "RankId", type: "select", label: "Rank", selectServiceUrl: '/Pipeline/GetAllRanks', required: true },
+        { id: "rankid", name: "RankId", type: "select", label: "Rank", selectServiceUrl: '/Pipeline/GetRankSelectValues', required: true },
         {
             fields: [
                 { id: "hourlyrate", name: "HourlyRate", type: "number", label: "Bill Rate" },

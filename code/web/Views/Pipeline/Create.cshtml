@@ -10,6 +10,8 @@
             var helper = new projectHelper(pipelineModel, pipeResourceList, pipeResourceModalModel, pipeHelper.onModalAccept);
             helper.render();
             pipeHelper.renderSummary('pipe-summary-div');
+            pipeHelper.initialize(function (data) {
+            });
         });
     </script>
 }

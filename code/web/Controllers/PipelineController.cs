@@ -41,9 +41,14 @@ namespace web.Controllers
             return GetSelectValues("Offering");
         }
 
-        public ContentResult GetAllRanks()
+        public ContentResult GetRankSelectValues()
         {
             return GetSelectValues("Rank");
+        }
+
+        public ContentResult GetAllRanks()
+        {
+            return DoJson(Repository.Context.Db.ExecuteToDictionaryList("SELECT Id, Name, StandardRank, BillRate, CostRate, StandardBillRate FROM Rank"));
         }
 
         public ContentResult GetSelectValues(string entityName)
