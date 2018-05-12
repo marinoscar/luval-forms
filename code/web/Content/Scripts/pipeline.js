@@ -113,6 +113,30 @@ class pipelineHelper {
         table.clear();
         table.rows.add(items);
         table.draw();
+        this.calculateSummary();
+    }
+
+    calculateSummary(){
+        var res = document.resources;
+        var total = 0;
+        var totalStandardBillRate = 0;
+        var totalCost = 0;
+        var hours = 0;
+        for (var i = 0; i < res.length; i++) {
+            var item = res[i];
+            var rank = _.find(this.ranks, function (r) {
+                 return r.Id === Number(item.RankId); 
+            });
+            total += item.HourlyRate * item.Hours;
+            totalStandardBillRate += rank.StandardBillRate * item.Hours;
+            totalCost += rank.CostRate * item.Hours;
+            hours += item.Hours;
+        }
+        var margin = (1-(totalCost / total)) * 100;
+        var erp = (total / totalStandardBillRate) * 100;
+        $('#pipe-summary-totalamount').val(total.toFixed(2));
+        $('#pipe-summary-margin').val(margin.toFixed(2));
+        $('#pipe-summary-erp').val(erp.toFixed(2));
     }
 
     deleteSelectedRow() {
