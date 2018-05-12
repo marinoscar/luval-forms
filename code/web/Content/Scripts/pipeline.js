@@ -1,4 +1,4 @@
-﻿class projectHelper {
+class projectHelper {
     constructor(formModel, resourceList, modalModel, onModalAccept) {
         this.formModel = formModel;
         this.resourceList = resourceList;
@@ -10,17 +10,16 @@
         var locFormModel = this.formModel;
         var builder = new forms(this.formModel);
         var listHelper = new listBuilder(this.resourceList, {
-            hideCommands: true, getData: false, data: []
+            hideCommands: true, getData: false, data: [],
+            dataTables: { searching: false, lengthChange: false, ordering: false }
         });
+        document.listBuilder = listHelper;
         var context = this;
         builder.render('render-div', function (data) {
             //on complete
             $('#' + locFormModel.id + '-commands').hide();
 
             listHelper.render('resource-div', function (data) {
-                $('.table').DataTable({
-                    searching: false, lengthChange: false
-                });
                 //on table complete
                 var modalForm = new forms(context.modalModel);
                 var modalHelper = new modal({
@@ -69,6 +68,7 @@
 
 class pipelineHelper {
     constructor() {
+
     }
 
     renderSummary(elementId) {
@@ -78,23 +78,53 @@ class pipelineHelper {
     }
 
     onModalAccept(project, onComplete) {
-        var rowid = 1;
+        var rowid = this.pipeHelper.getMaxResourceCount();
         var data = project.extractModalData();
-        var table = $('.table').DataTable();
-        if (utils.isNull(this.resources))
-            this.resources = [];
-        var max = _.max(this.resources, function (item) { if (!utils.isNull(item)) return item.__RowId; });
-        if (max === -Infinity) rowid = 1;
-        else rowid += max.__RowId;
-        this.resources.push({
-            __RowId: rowid, Id: data['Id'], RankId: data['RankId'], PipelineId: data['PipelineId'], HourlyRate: data['HourlyRate'], hours: data['Hours']
+
+        document.resources.push({
+            __RowId: rowid, Id: data['Id'], RankId: data['RankId'], RankIdText: data['RankId_text'], PipelineId: data['PipelineId'], HourlyRate: data['HourlyRate'], Hours: data['Hours']
         });
-        table.row.add([
-            data['RankId_text'],
-            data['HourlyRate'], data['Hours']
-        ]).draw(false);
+
+        var vals = this.pipeHelper.convertResourcesForTable();
+        this.pipeHelper.addRowsToTable(vals);
+
         if (!utils.isNull(onComplete))
             onComplete();
+    }
+
+    convertResourcesForTable(){
+        return _.map(document.resources, function (i) {
+            return [i.RankIdText, i.HourlyRate, i.Hours]
+        });
+    }
+
+    getMaxResourceCount() {
+        var rowid = 1;
+        if (utils.isNull(document.resources))
+            document.resources = [];
+        var max = _.max(document.resources, function (item) { if (!utils.isNull(item)) return item.__RowId; });
+        if (max === -Infinity) rowid = 1;
+        else rowid += max.__RowId;
+        return rowid;
+    }
+
+    addRowsToTable(items) {
+        var table = $('.table').DataTable();
+        table.clear();
+        table.rows.add(items);
+        table.draw();
+    }
+
+    deleteSelectedRow() {
+        var index = document.listBuilder.getSelectedRowElementIndex();
+        if(utils.isNullOrEmpty(index) || index < 0) {
+            alert('Please select a row to delete');
+            return;
+        }
+        if(!confirm('Are you sure you want to delete the selected row')) return;
+        document.resources.splice(index, 1);
+        var vals = this.convertResourcesForTable();
+        this.addRowsToTable(vals);
     }
 
     initialize(onComplete) {
@@ -107,6 +137,9 @@ class pipelineHelper {
             });
             if (utils.isNullOrEmpty(item)) return;
             $('#pipeline-resource-model-form-hourlyrate').val(item.BillRate);
+        });
+        $('#resource-remove').on('click', function (e) {
+            context.deleteSelectedRow();
         });
     }
 

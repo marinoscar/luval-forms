@@ -412,6 +412,7 @@ class listBuilder {
         forms.sanitizeModel(this.options, 'hideCommands', false);
         forms.sanitizeModel(this.options, 'getData', true);
         forms.sanitizeModel(this.options, 'data', []);
+        forms.sanitizeModel(this.options, 'dataTables', {});
     }
 
     render(elementId, onComplete) {
@@ -425,7 +426,7 @@ class listBuilder {
             });
         }
         else
-            context.configureTable(el, options.data, context, onComplete);
+            context.configureTable(el, this.options.data, context, onComplete);
     }
 
     configureTable(element, data, context, onComplete) {
@@ -450,7 +451,7 @@ class listBuilder {
         var commandId = context.model.id + '-commands';
         var table = new tables(context.model, data).renderTable();
         element.innerHTML = template({ table: table, commandId: commandId });
-        $('#' + context.model.id).DataTable();
+        $('#' + context.model.id).DataTable(context.options.dataTables);
         if (context.options.hideCommands)
             $('#' + commandId).hide();
 
@@ -482,9 +483,21 @@ class listBuilder {
     }
 
     getSelectedId() {
-        var el = $('#' + this.model.id + ' tbody .table-active');
+        var el = this.getSelectedRowElement();
         if (utils.isNull(el)) return 0;
         return el.data('row-key');
+    }
+
+    getSelectedRowElement() {
+        var el = $('#' + this.model.id + ' tbody .table-active');
+        if (utils.isNull(el)) return null;
+        return el;
+    }
+
+    getSelectedRowElementIndex() {
+        var el = this.getSelectedRowElement();
+        if (utils.isNull(el)) return 0;
+        return el.index();
     }
 
     getData(onComplete) {
