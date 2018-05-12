@@ -75,6 +75,7 @@ class pipelineHelper {
         var element = document.getElementById(elementId);
         var builder = new forms(pipeSummary);
         element.innerHTML = builder.renderFields();
+        $('#pipe-summary-div').find('input').prop('readonly', true);
     }
 
     onModalAccept(project, onComplete) {
@@ -134,7 +135,8 @@ class pipelineHelper {
         }
         var margin = (1-(totalCost / total)) * 100;
         var erp = (total / totalStandardBillRate) * 100;
-        $('#pipe-summary-totalamount').val(total.toFixed(2));
+        var formattedTotal = numeral(total).format('0,0.00');
+        $('#pipe-summary-totalamount').val(formattedTotal);
         $('#pipe-summary-margin').val(margin.toFixed(2));
         $('#pipe-summary-erp').val(erp.toFixed(2));
     }

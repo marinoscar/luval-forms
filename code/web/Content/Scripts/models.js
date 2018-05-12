@@ -389,9 +389,9 @@ var pipeSummary = {
     fields: [
         {
             fields: [
-                { id: "totalamount", name: "-Total", type: "number", label: "Total Amount" },
-                { id: "margin", name: "-Margin", type: "number", label: "Margin" },
-                { id: "erp", name: "-ERP", type: "number", label: "ERP" },
+                { id: "totalamount", name: "-Total", type: "text", label: "Total Amount" },
+                { id: "margin", name: "-Margin", type: "text", label: "Margin" },
+                { id: "erp", name: "-ERP", type: "text", label: "ERP" }
             ]
         }
     ]
