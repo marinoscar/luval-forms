@@ -347,7 +347,14 @@ var pipelineModel = {
                     required: false
                 }
             ]
-        }
+        },
+        {
+            id: "Comment",
+            name: "Comment",
+            label: "Comment",
+            type: "textarea",
+            required: true
+        },
     ]
 };
 var pipelineList = {

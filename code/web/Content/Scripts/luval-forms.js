@@ -64,21 +64,33 @@
         var url = '/' + this.model.controllerName + '/GetEntity/' + id;
         var context = this;
         $.getJSON(url, function (data) {
-            for (var i = 0; i < context.model.fields.length; i++) {
-                var field = context.model.fields[i];
-                var elementId = '#' + field.fieldId;
-                var value = '';
-
-                if (!utils.isNullOrEmpty(data[field.name]))
-                    value = data[field.name];
-                if (!$(elementId).is(':checkbox'))
-                    $(elementId).val(value);
-                else if (value)
-                    $(elementId).prop('checked', true);
-            }
+            context.updateFields(context.model.fields, data);
             if (!utils.isNull(onComplete))
                 onComplete(data);
         });
+    }
+
+    updateFields(fields, data) {
+        for (var i = 0; i < fields.length; i++) {
+            var field = fields[i];
+            if (!utils.isNullOrEmpty(field["fields"])) {
+                this.updateFields(field["fields"], data);
+                continue;
+            }
+            var elementId = '#' + field.fieldId;
+            var value = '';
+
+            if (!utils.isNullOrEmpty(data[field.name]))
+                value = data[field.name];
+            if ($(elementId).is('select')) {
+                $(elementId).val(value);
+                $(elementId).trigger('change');
+            }
+            if (!$(elementId).is(':checkbox'))
+                $(elementId).val(value);
+            else if (value)
+                $(elementId).prop('checked', true);
+        }
     }
 
     renderForm(isEditMode) {
