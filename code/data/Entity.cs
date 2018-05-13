@@ -11,6 +11,8 @@ namespace data
         public Entity()
         {
             Items = new List<Dictionary<string, object>>(25);
+            IdentityColumnName = "Id";
+            PrimaryKeyName = IdentityColumnName;
         }
         public string Name { get; set; }
         public string IdentityColumnName { get; set; }

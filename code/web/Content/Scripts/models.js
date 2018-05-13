@@ -354,7 +354,11 @@ var pipelineList = {
     id: "pipeline-list",
     columns: [
         { caption: "Id", name: "Id", visible: "false" },
-        { caption: "Name", name: "Name", visible: "true" }
+        { caption: "Name", name: "Name", visible: "true" },
+        { caption: "Client", name: "Client", visible: "true" },
+        { caption: "Approval Date", name: "ApprovalDate", visible: "true" },
+        { caption: "Win Probability (%)", name: "WinProbability", visible: "true" },
+        { caption: "Total", name: "Total", visible: "true" },
     ],
     controllerName: "Pipeline"
 

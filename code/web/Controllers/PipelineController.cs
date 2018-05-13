@@ -15,6 +15,14 @@ namespace web.Controllers
             ViewBag.ListModelName = "pipelineList";
         }
 
+        public override ActionResult Create(FormCollection collection)
+        {
+            var record = EntityHelper.ToDictionary(collection);
+            var list = EntityHelper.ToDictionaryList(collection);
+            Repository.CreatePipeLine(record, list);
+            return RedirectToAction("Index");
+        }
+
         public override ContentResult ListAll()
         {
             var data = Repository.GetList();
@@ -54,6 +62,7 @@ namespace web.Controllers
         public ContentResult GetSelectValues(string entityName)
         {
             var vals = Repository.GetAsKeyValue(entityName);
+            vals.Insert(0, new Dictionary<string, object>() { { "", "" } });
             return DoJson(vals);
         }
     }

@@ -60,7 +60,7 @@ namespace business
             Context.Delete(entity);
         }
 
-        private void PrepareForInsert(Dictionary<string, object> item)
+        protected virtual void PrepareForInsert(Dictionary<string, object> item)
         {
             item["UtcCreatedOn"] = DateTime.UtcNow;
             item["CreatedBy"] = _resolveUser();
@@ -68,7 +68,7 @@ namespace business
             
         }
 
-        private void PrepareForUpdate(Dictionary<string, object> item)
+        protected virtual void PrepareForUpdate(Dictionary<string, object> item)
         {
             item["UtcUpdatedOn"] = DateTime.UtcNow;
             item["UpdatedBy"] = _resolveUser();

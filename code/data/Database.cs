@@ -30,6 +30,7 @@ namespace data
             }
             catch (Exception ex)
             {
+                ConnectionProvider.Rollback();
                 throw new InvalidOperationException("Unable to execute transaction", ex);
             }
             finally
@@ -54,7 +55,8 @@ namespace data
             }
             finally
             {
-                ConnectionProvider.CloseConnection();
+                if(!ConnectionProvider.IsTransactionActive)
+                    ConnectionProvider.CloseConnection();
             }
             return result;
         }
@@ -234,7 +236,7 @@ namespace data
                 }
                 catch (Exception ex)
                 {
-                    if (cmd.Transaction != null)
+                    if (cmd.Transaction != null && !ConnectionProvider.IsTransactionActive)
                     {
 
                         cmd.Transaction.Rollback();

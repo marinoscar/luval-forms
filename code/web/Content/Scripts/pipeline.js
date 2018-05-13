@@ -1,4 +1,4 @@
-class projectHelper {
+﻿class projectHelper {
     constructor(formModel, resourceList, modalModel, onModalAccept) {
         this.formModel = formModel;
         this.resourceList = resourceList;
@@ -34,14 +34,7 @@ class projectHelper {
     }
 
     extractModalData() {
-        var obj = {};
-        var inputs = $('#' + this.modalModel.id).find('input, textarea, select');
-        for (var i = 0; i < inputs.length; i++) {
-            var input = inputs[i];
-            obj[$(input).prop('name')] = $(input).val();
-            if ($(input).is('select'))
-                obj[$(input).prop('name') + '_text'] = $(input).find('option:selected').text();
-        }
+        var obj = utils.extractInputData(this.modalModel.id);
         return obj;
     }
 
@@ -71,6 +64,25 @@ class pipelineHelper {
 
     }
 
+    onSubmit() {
+        var formData = utils.extractInputData('pipeline-form');
+        var arrayData = utils.arrayToFormCollection(document.resources);
+        var data = _.extend(formData, arrayData);
+        $.ajax({
+            url: '/Pipeline/Create',
+            method: 'POST',
+            data: data,
+            success: function (data, status, jqxhr) {
+                console.log('Pipeline status: ' + status);
+                location.href = '/Pipeline/'
+            },
+            error: function (jqXHR, textStatus, errorThrown) {
+                console.log('Status: ' + textStatus + ' Error: ' + errorThrown);
+                alert('Failed to process transaction ' + errorThrown);
+            }
+        });
+    }
+
     renderSummary(elementId) {
         var element = document.getElementById(elementId);
         var builder = new forms(pipeSummary);
@@ -83,7 +95,7 @@ class pipelineHelper {
         var data = project.extractModalData();
 
         document.resources.push({
-            __RowId: rowid, Id: data['Id'], RankId: data['RankId'], RankIdText: data['RankId_text'], PipelineId: data['PipelineId'], HourlyRate: data['HourlyRate'], Hours: data['Hours']
+            "-RowId": rowid, Id: data['Id'], RankId: data['RankId'], RankIdText: data['-RankId-Text'], PipelineId: data['PipelineId'], HourlyRate: data['HourlyRate'], Hours: data['Hours']
         });
 
         var vals = this.pipeHelper.convertResourcesForTable();
@@ -93,7 +105,7 @@ class pipelineHelper {
             onComplete();
     }
 
-    convertResourcesForTable(){
+    convertResourcesForTable() {
         return _.map(document.resources, function (i) {
             return [i.RankIdText, i.HourlyRate, i.Hours]
         });
@@ -103,9 +115,9 @@ class pipelineHelper {
         var rowid = 1;
         if (utils.isNull(document.resources))
             document.resources = [];
-        var max = _.max(document.resources, function (item) { if (!utils.isNull(item)) return item.__RowId; });
+        var max = _.max(document.resources, function (item) { if (!utils.isNull(item)) return item['-RowId']; });
         if (max === -Infinity) rowid = 1;
-        else rowid += max.__RowId;
+        else rowid += max['-RowId'];
         return rowid;
     }
 
@@ -117,7 +129,7 @@ class pipelineHelper {
         this.calculateSummary();
     }
 
-    calculateSummary(){
+    calculateSummary() {
         var res = document.resources;
         var total = 0;
         var totalStandardBillRate = 0;
@@ -126,28 +138,29 @@ class pipelineHelper {
         for (var i = 0; i < res.length; i++) {
             var item = res[i];
             var rank = _.find(this.ranks, function (r) {
-                 return r.Id === Number(item.RankId); 
+                return r.Id === Number(item.RankId);
             });
             total += item.HourlyRate * item.Hours;
             totalStandardBillRate += rank.StandardBillRate * item.Hours;
             totalCost += rank.CostRate * item.Hours;
             hours += item.Hours;
         }
-        var margin = (1-(totalCost / total)) * 100;
+        var margin = (1 - (totalCost / total)) * 100;
         var erp = (total / totalStandardBillRate) * 100;
         var formattedTotal = numeral(total).format('0,0.00');
         $('#pipe-summary-totalamount').val(formattedTotal);
         $('#pipe-summary-margin').val(margin.toFixed(2));
         $('#pipe-summary-erp').val(erp.toFixed(2));
+        var formData = utils.arrayToFormCollection(document.resources);
     }
 
     deleteSelectedRow() {
         var index = document.listBuilder.getSelectedRowElementIndex();
-        if(utils.isNullOrEmpty(index) || index < 0) {
+        if (utils.isNullOrEmpty(index) || index < 0) {
             alert('Please select a row to delete');
             return;
         }
-        if(!confirm('Are you sure you want to delete the selected row')) return;
+        if (!confirm('Are you sure you want to delete the selected row')) return;
         document.resources.splice(index, 1);
         var vals = this.convertResourcesForTable();
         this.addRowsToTable(vals);
@@ -166,6 +179,13 @@ class pipelineHelper {
         });
         $('#resource-remove').on('click', function (e) {
             context.deleteSelectedRow();
+        });
+        $('#command-submit').on('click', function (e) {
+            context.onSubmit();
+        });
+        $('#command-cancel').on('click', function (e) {
+            if (!confirm('Are you sure you want to cancel?')) return;
+            location.href = '/Pipeline/';
         });
     }
 
