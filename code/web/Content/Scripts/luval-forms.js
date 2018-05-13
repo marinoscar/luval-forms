@@ -1,4 +1,4 @@
-﻿class forms {
+class forms {
     constructor(model) {
         this.model = model;
         forms.sanitizeModel(this.model, 'controllerName', '');
@@ -89,10 +89,17 @@
             if ($(elementId).is('textarea'))
                 $(elementId).text(value);
 
-            if (!$(elementId).is(':checkbox'))
-                $(elementId).val(value);
-            else if (value)
-                $(elementId).prop('checked', true);
+            if ($(elementId).prop('type') === 'date' || $(elementId).prop('type') === 'datetime') {
+                var dateVal = Date.parse(value);
+                var el = $(elementId)[0];
+                el.valueAsDate = dateVal;
+            }
+            else {
+                if (!$(elementId).is(':checkbox'))
+                    $(elementId).val(value);
+                else if (value)
+                    $(elementId).prop('checked', true);
+            }
         }
     }
 
