@@ -86,6 +86,9 @@
                 $(elementId).val(value);
                 $(elementId).trigger('change');
             }
+            if ($(elementId).is('textarea'))
+                $(elementId).text(value);
+
             if (!$(elementId).is(':checkbox'))
                 $(elementId).val(value);
             else if (value)
