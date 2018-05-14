@@ -1,4 +1,5 @@
 ﻿using business;
+using data;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -15,10 +16,16 @@ namespace web.Controllers
             ViewBag.ListModelName = "pipelineList";
         }
 
+        public override ContentResult GetEntity(int id)
+        {
+
+            return base.GetEntity(id);
+        }
+
         public override ActionResult Create(FormCollection collection)
         {
-            var record = EntityHelper.ToDictionary(collection);
-            var list = EntityHelper.ToDictionaryList(collection);
+            var record = EntityHelper.ToRecord(collection);
+            var list = EntityHelper.ToRecordList(collection);
             Repository.CreatePipeLine(record, list);
             return RedirectToAction("Index");
         }
@@ -56,13 +63,13 @@ namespace web.Controllers
 
         public ContentResult GetAllRanks()
         {
-            return DoJson(Repository.Context.Db.ExecuteToDictionaryList("SELECT Id, Name, StandardRank, BillRate, CostRate, StandardBillRate FROM Rank"));
+            return DoJson(Repository.Context.Db.ExecuteToRecordList("SELECT Id, Name, StandardRank, BillRate, CostRate, StandardBillRate FROM Rank"));
         }
 
         public ContentResult GetSelectValues(string entityName)
         {
             var vals = Repository.GetAsKeyValue(entityName);
-            vals.Insert(0, new Dictionary<string, object>() { { "", "" } });
+            vals.Insert(0, new Record() { { "", "" } });
             return DoJson(vals);
         }
     }

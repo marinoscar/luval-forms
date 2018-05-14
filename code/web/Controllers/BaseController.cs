@@ -8,6 +8,7 @@ using System.Text;
 using Newtonsoft.Json;
 using web.Helpers;
 using System.Collections.Specialized;
+using data;
 
 namespace web.Controllers
 {
@@ -51,7 +52,7 @@ namespace web.Controllers
         {
             try
             {
-                var record = EntityHelper.ToDictionary(collection);
+                var record = EntityHelper.ToRecord(collection);
                 Repository.Insert(Repository.CreateEntity(record));
                 return RedirectToAction("Index");
             }
@@ -79,7 +80,7 @@ namespace web.Controllers
         {
             try
             {
-                var record = EntityHelper.ToDictionary(collection);
+                var record = EntityHelper.ToRecord(collection);
                 Repository.Update(Repository.CreateEntity(record));
                 return RedirectToAction("Index");
             }
@@ -95,7 +96,7 @@ namespace web.Controllers
         {
             try
             {
-                var record = new Dictionary<string, object>() { { "Id", id } };
+                var record = new Record() { { "Id", id } };
                 Repository.Delete(Repository.CreateEntity(record));
                 return RedirectToAction("Index");
             }
