@@ -18,8 +18,7 @@ namespace web.Controllers
 
         public override ContentResult GetEntity(int id)
         {
-
-            return base.GetEntity(id);
+            return DoJson(Repository.GetComplexEntity(id));
         }
 
         public override ActionResult Create(FormCollection collection)

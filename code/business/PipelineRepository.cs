@@ -110,13 +110,27 @@ ORDER BY Pipe.UtcUpdatedOn DESC
         public Record GetComplexEntity(int id)
         {
             var entity = GetById(id);
-
+            entity["-ResourceArray"] = GetResources(id);
             return entity;
         }
 
         public List<Record> GetResources(int id)
         {
-            return new List<Record>();
+            var sql = @"
+SELECT
+	ROW_NUMBER() OVER(ORDER BY Res.Id ASC) As [-RowId],
+	Res.Id,
+	Res.RankId,
+	[Rank].[Name] As RankIdName,
+	[Rank].[Name] As [-RankIdName],
+	Res.PipelineId,
+	Res.HourlyRate,
+	Res.[Hours]
+FROM PipelineResource As Res
+INNER JOIN [Rank] ON Res.RankId = [Rank].Id
+WHERE Res.PipelineId = {0}
+".FormatSql(id);
+            return Context.Db.ExecuteToRecordList(sql);
         }
     }
 }
