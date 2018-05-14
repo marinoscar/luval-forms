@@ -23,6 +23,17 @@ namespace business
         {
             AddInsertLog("Pipeline", id);
         }
+
+        public void AddPipelineUpdateLog(int id, Record before, Record after)
+        {
+            AddInsertLog("Pipeline", id);
+        }
+
+        public void AddUpdatetLog(string entityName, int id, Record before, Record after)
+        {
+            AddEntity(entityName, id, "Update", "Record updated");
+        }
+
         public void AddInsertLog(string entityName, int id)
         {
             AddEntity(entityName, id, "Insert", "Record created");

@@ -29,6 +29,14 @@ namespace web.Controllers
             return RedirectToAction("Index");
         }
 
+        public override ActionResult Edit(FormCollection collection)
+        {
+            var record = EntityHelper.ToRecord(collection);
+            var list = EntityHelper.ToRecordList(collection);
+            Repository.EditPipeLine(record, list);
+            return RedirectToAction("Index");
+        }
+
         public override ContentResult ListAll()
         {
             var data = Repository.GetList();

@@ -6,8 +6,7 @@
         this.onModalAccept = onModalAccept;
     }
 
-    render() {
-        var locFormModel = this.formModel;
+    render(id) {
         var builder = new forms(this.formModel);
         var listHelper = new listBuilder(this.resourceList, {
             hideCommands: true, getData: false, data: [],
@@ -15,21 +14,43 @@
         });
         document.listBuilder = listHelper;
         var context = this;
-        builder.render('render-div', function (data) {
-            //on complete
-            $('#' + locFormModel.id + '-commands').hide();
-
-            listHelper.render('resource-div', function (data) {
-                //on table complete
-                var modalForm = new forms(context.modalModel);
-                var modalHelper = new modal({
-                    id: context.modalModel.id,
-                    title: "Resource",
-                    body: modalForm.renderFields()
-                });
-                modalHelper.renderModal('form-modal');
-                context.buttonEvent();
+        if (utils.isNullOrEmpty(id)) {
+            builder.render('render-div', function (data) {
+                //on complete
+                conte.whenRenderComplete(context);
             });
+        }
+        else {
+            builder.renderWithData('render-div', id, function (data) {
+                //on complete
+                context.whenRenderComplete(context);
+                if (!utils.isNullOrEmpty(data["record"]) && !utils.isNullOrEmpty(data["record"]["-ResourceArray"])) {
+                    document.resources = data["record"]["-ResourceArray"];
+                    var first = _.first(document.resources);
+                    if (!utils.isNullOrEmpty(first)) {
+                        document.PipelineId = Number(first["PipelineId"]);
+                        var localContext = context;
+                        context.pipeHelper.loadAllRanks(function(ranks){
+                           localContext.pipeHelper.refreshTable(); 
+                        });
+                    }
+                }
+            });
+        }
+    }
+
+    whenRenderComplete(context) {
+        $('#' + context.formModel.id + '-commands').hide();
+        document.listBuilder.render('resource-div', function (data) {
+            //on table complete
+            var modalForm = new forms(context.modalModel);
+            var modalHelper = new modal({
+                id: context.modalModel.id,
+                title: "Resource",
+                body: modalForm.renderFields()
+            });
+            modalHelper.renderModal('form-modal');
+            context.buttonEvent();
         });
     }
 
@@ -68,8 +89,11 @@ class pipelineHelper {
         var formData = utils.extractInputData('pipeline-form');
         var arrayData = utils.arrayToFormCollection(document.resources);
         var data = _.extend(formData, arrayData);
+        var url = '';
+        if (this.isEdit) url = '/Pipeline/Edit';
+        else url = url
         $.ajax({
-            url: '/Pipeline/Create',
+            url: url,
             method: 'POST',
             data: data,
             success: function (data, status, jqxhr) {
@@ -93,16 +117,22 @@ class pipelineHelper {
     onModalAccept(project, onComplete) {
         var rowid = this.pipeHelper.getMaxResourceCount();
         var data = project.extractModalData();
-
+        var pipelineId = 0;
+        if (!utils.isNullOrEmpty(document.PipelineId))
+            pipelineId = document.PipelineId;
         document.resources.push({
-            "-RowId": rowid, Id: data['Id'], RankId: data['RankId'], RankIdText: data['-RankId-Text'], PipelineId: data['PipelineId'], HourlyRate: data['HourlyRate'], Hours: data['Hours']
+            "-RowId": rowid, Id: data['Id'], RankId: data['RankId'], RankIdText: data['-RankId-Text'], PipelineId: pipelineId, HourlyRate: data['HourlyRate'], Hours: data['Hours']
         });
 
-        var vals = this.pipeHelper.convertResourcesForTable();
-        this.pipeHelper.addRowsToTable(vals);
+        this.pipeHelper.refreshTable();
 
         if (!utils.isNull(onComplete))
             onComplete();
+    }
+
+    refreshTable() {
+        var vals = this.convertResourcesForTable();
+        this.addRowsToTable(vals);
     }
 
     convertResourcesForTable() {

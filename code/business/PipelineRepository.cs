@@ -53,6 +53,7 @@ ORDER BY Pipe.UtcUpdatedOn DESC
         public void CreatePipeLine(Record record, List<Record> resources)
         {
             var log = new EntityChangeLogRepository(Context);
+            var comment = ExtractComment(record);
             UpdateTotals(record, resources);
             Context.Db.WithTransaction(db =>
             {
@@ -72,6 +73,43 @@ ORDER BY Pipe.UtcUpdatedOn DESC
                 log.AddPipelineInsertLog(Convert.ToInt32(id));
                 return null;
             });
+        }
+
+        public void EditPipeLine(Record record, List<Record> resources)
+        {
+            var log = new EntityChangeLogRepository(Context);
+            var comment = ExtractComment(record);
+            var id = Convert.ToInt32(record["Id"]);
+            var sql = "DELETE FROM PipelineResource WHERE PipelineId = {0}".Fi(id);
+            UpdateTotals(record, resources);
+            Context.Db.WithTransaction(db =>
+            {
+                Update(CreateEntity(record));
+                resources.ForEach(i =>
+                {
+                    if (i.ContainsKey("RankIdText"))
+                        i.Remove("RankIdText");
+                });
+                db.ExecuteNonQuery(sql);
+                Insert(new Entity()
+                {
+                    Name = "PipelineResource",
+                    Items = new List<Record>(resources)
+                });
+                log.AddPipelineUpdateLog(Convert.ToInt32(id), record, record);
+                return null;
+            });
+        }
+
+        private string ExtractComment(Record record)
+        {
+            var res = default(string);
+            if (record.ContainsKey("Comment"))
+            {
+                res = Convert.ToString(record["Comment"]);
+                record.Remove("Comment");
+            }
+            return res;
         }
 
         private void UpdateTotals(Dictionary<string, object> record, List<Record> resources)
@@ -121,8 +159,8 @@ SELECT
 	ROW_NUMBER() OVER(ORDER BY Res.Id ASC) As [-RowId],
 	Res.Id,
 	Res.RankId,
-	[Rank].[Name] As RankIdName,
-	[Rank].[Name] As [-RankIdName],
+	[Rank].[Name] As RankIdText,
+	[Rank].[Name] As [-RankId-Text],
 	Res.PipelineId,
 	Res.HourlyRate,
 	Res.[Hours]

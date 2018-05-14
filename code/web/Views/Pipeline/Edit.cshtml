@@ -4,17 +4,58 @@
 }
 
 @section formScripts{
+    <script src="//cdnjs.cloudflare.com/ajax/libs/numeral.js/2.0.6/numeral.min.js"></script>
+    <script src="/Content/Scripts/pipeline.js"></script>
     <script type="text/javascript">
         $(function () {
-            var builder = new forms( @ViewBag.ModelName );
-            builder.renderWithData('render-div', @ViewBag.Id, function (data) {
-                //on complete
+            var pipeHelper = new pipelineHelper();
+            pipeHelper.isEdit = true;
+            var helper = new projectHelper(pipelineModel, pipeResourceList, pipeResourceModalModel, pipeHelper.onModalAccept);
+            helper.pipeHelper = pipeHelper;
+            helper.render( @ViewBag.Id );
+            pipeHelper.renderSummary('pipe-summary-div');
+            pipeHelper.initialize(function (data) {
+                utils.clearAllInputs('wrapper');
             });
         });
     </script>
 }
 
 <h2>@ViewBag.Title</h2>
-<div id="render-div"></div>
+<div id="wrapper">
+    <div class="row">
+        <div class="col-sm-12">
+            <div id="render-div"></div>
+        </div>
+    </div>
+    <hr />
+    <div class="row">
+        <div class="col-sm-12">
+            <h3>Resource Mix</h3>
+            <div class="btn-group" role="group">
+                <button id="resource-add" type="button" class="btn btn-success"><i class="fas fa-plus"></i></button>
+                <button id="resource-edit" type="button" class="btn btn-secondary"><i class="fas fa-edit"></i></button>
+                <button id="resource-remove" type="button" class="btn btn-danger"><i class="fas fa-trash"></i></button>
+            </div>
+            <div id="resource-div">
+            </div>
+        </div>
+        <div id="form-modal"></div>
+    </div>
+    <hr />
+    <div class="row">
+        <div class="col-sm-12">
+            <h3>Summary</h3>
+            <div id="pipe-summary-div"></div>
+        </div>
+    </div>
+    <hr />
+    <div class="row">
+        <div class="col-sm-12">
+            <button id="command-submit" type="button" class="btn btn-primary">Submit</button>
+            <button id="command-cancel" type="button" class="btn btn-default">Cancel</button>
+        </div>
+    </div>
+</div>
 
 

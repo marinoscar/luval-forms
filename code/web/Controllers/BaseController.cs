@@ -76,7 +76,7 @@ namespace web.Controllers
 
         // POST: Model/Edit/5
         [HttpPost]
-        public ActionResult Edit(FormCollection collection)
+        public virtual ActionResult Edit(FormCollection collection)
         {
             try
             {
