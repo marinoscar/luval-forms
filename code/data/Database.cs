@@ -164,6 +164,18 @@ namespace data
             WhileReading(query, parameters, r => list.Add(r.ToDictionary()));
             return list;
         }
+
+        public List<Record> ExecuteToRecordList(string query)
+        {
+            return ExecuteToRecordList(query, null);
+        }
+
+        public List<Record> ExecuteToRecordList(string query, IEnumerable<IDbDataParameter> parameters)
+        {
+            var list = new List<Record>();
+            WhileReading(query, parameters, r => list.Add(Record.FromDictionary(r.ToDictionary())));
+            return list;
+        }
         public object WithDataReader(string query, Func<IDataReader, object> doSomething)
         {
             return WithDataReader(query, CommandBehavior.Default, doSomething);
