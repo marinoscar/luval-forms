@@ -29,10 +29,10 @@ namespace business
         }
         public void AddEntity(string entityName, int id, string type, string details)
         {
-            Insert(this.CreateEntity(new Dictionary<string, object>() {
+            Insert(this.CreateEntity(Record.FromDictionary(new Dictionary<string, object>() {
                 {"ReferenceId", id },{"Name", entityName },{"Type", type },
                 {"Details", details },
-            }));
+            })));
         }
 
     }

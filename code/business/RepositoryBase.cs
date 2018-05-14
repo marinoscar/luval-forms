@@ -25,20 +25,20 @@ namespace business
         }
 
 
-        public abstract List<Dictionary<string, object>> GetAll();
+        public abstract List<Record> GetAll();
 
-        protected virtual List<Dictionary<string, object>> GetAll(string entityName)
+        protected virtual List<Record> GetAll(string entityName)
         {
             var sql = "SELECT * FROM [{0}]".Fi(entityName);
-            return Context.Db.ExecuteToDictionaryList(sql);
+            return Context.Db.ExecuteToRecordList(sql);
         }
 
-        public abstract Dictionary<string, object> GetById(int id);
+        public abstract Record GetById(int id);
 
-        protected virtual Dictionary<string, object>  GetById(string entityName, int id)
+        protected virtual Record  GetById(string entityName, int id)
         {
             var sql = "SELECT * FROM [{0}] WHERE Id = {1}".Fi(entityName, id);
-            return Context.Db.ExecuteToDictionaryList(sql).FirstOrDefault();
+            return Context.Db.ExecuteToRecordList(sql).FirstOrDefault();
         }
 
         public virtual void Insert(Entity entity)
@@ -60,7 +60,7 @@ namespace business
             Context.Delete(entity);
         }
 
-        protected virtual void PrepareForInsert(Dictionary<string, object> item)
+        protected virtual void PrepareForInsert(Record item)
         {
             item["UtcCreatedOn"] = DateTime.UtcNow;
             item["CreatedBy"] = _resolveUser();
@@ -68,7 +68,7 @@ namespace business
             
         }
 
-        protected virtual void PrepareForUpdate(Dictionary<string, object> item)
+        protected virtual void PrepareForUpdate(Record item)
         {
             item["UtcUpdatedOn"] = DateTime.UtcNow;
             item["UpdatedBy"] = _resolveUser();

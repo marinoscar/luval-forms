@@ -28,29 +28,29 @@ namespace business
             EntityName = entityName;
         }
 
-        public override List<Dictionary<string, object>> GetAll()
+        public override List<Record> GetAll()
         {
             return GetAll(EntityName);
         }
 
-        public override Dictionary<string, object> GetById(int id)
+        public override Record GetById(int id)
         {
             return GetById(EntityName, id);
         }
 
-        public Entity CreateEntity(Dictionary<string, object> item)
+        public Entity CreateEntity(Record item)
         {
             return CreateEntity(new[] { item });
         }
 
-        public Entity CreateEntity(IEnumerable<Dictionary<string, object>> items)
+        public Entity CreateEntity(IEnumerable<Record> items)
         {
             return new Entity()
             {
                 Name = EntityName,
                 IdentityColumnName = "Id",
                 PrimaryKeyName = "Id",
-                Items = new List<Dictionary<string, object>>(items)
+                Items = new List<Record>(items)
             };
         }
     }

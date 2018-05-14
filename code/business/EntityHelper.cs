@@ -1,4 +1,5 @@
-﻿using System;
+﻿using data;
+using System;
 using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.Linq;
@@ -10,9 +11,9 @@ namespace business
 {
     public static class EntityHelper
     {
-        public static Dictionary<string, object> ToDictionary(NameValueCollection item)
+        public static Record ToRecord(NameValueCollection item)
         {
-            var dic = new Dictionary<string, object>();
+            var dic = new Record();
             if (item.AllKeys.Contains("Id"))
                 dic["Id"] = Convert.ToDecimal(item["Id"]);
             var types = item.AllKeys.Where(i => i.StartsWith("_") && i != "Id" && !i.StartsWith("-") && !i.Contains("[") && !i.Contains("]")).ToList();
@@ -66,9 +67,9 @@ namespace business
             else return null;
         }
 
-        public static List<Dictionary<string, object>> ToDictionaryList(NameValueCollection item)
+        public static List<Record> ToRecordList(NameValueCollection item)
         {
-            var result = new List<Dictionary<string, object>>();
+            var result = new List<Record>();
             var keys = item.AllKeys.Where(i => !i.StartsWith("-") && i.Contains("[") && i.Contains("]")).ToList();
             var allKeys = string.Join(",", keys);
             var indexStrings = Regex.Matches(allKeys, @"\[[0-9]*\]").Cast<Match>()
@@ -76,7 +77,7 @@ namespace business
             var indexMatches = indexStrings.Select(i => Convert.ToInt32(i.Replace("[", "").Replace("]", ""))).OrderBy(i => i).ToList();
             foreach(var index in indexMatches)
             {
-                var dic = new Dictionary<string, object>();
+                var dic = new Record();
                 var indexString = string.Format("[{0}]", index);
                 var dicKeys = keys.Where(i => i.Contains(indexString)).ToList();
                 foreach(var key in dicKeys)

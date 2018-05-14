@@ -10,13 +10,13 @@ namespace data
     {
         public Entity()
         {
-            Items = new List<Dictionary<string, object>>(25);
+            Items = new List<Record>(25);
             IdentityColumnName = "Id";
             PrimaryKeyName = IdentityColumnName;
         }
         public string Name { get; set; }
         public string IdentityColumnName { get; set; }
         public string PrimaryKeyName { get; set; }
-        public List<Dictionary<string, object>> Items { get; set; }
+        public List<Record> Items { get; set; }
     }
 }

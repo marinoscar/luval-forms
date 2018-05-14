@@ -21,9 +21,9 @@ namespace business
 
         public void AddEntity(int id, string comment)
         {
-            Insert(this.CreateEntity(new Dictionary<string, object>() {
+            Insert(this.CreateEntity(Record.FromDictionary(new Dictionary<string, object>() {
                 {"PipelineId", id },{"Comment", comment }
-            }));
+            })));
         }
     }
 }
